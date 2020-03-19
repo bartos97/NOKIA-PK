@@ -13,3 +13,7 @@ _deps
 *.a
 *.o
 *_autogen
+
+build/
+*syslog*
+.vscode/
