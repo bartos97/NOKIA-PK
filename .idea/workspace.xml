@@ -1,11 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="5d912bbd-03e1-48a6-bd39-8ad86ad9087f" name="Default Changelist" comment="" />
+    <list default="true" id="5d912bbd-03e1-48a6-bd39-8ad86ad9087f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/UE/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/Application.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/Application.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/Application.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/Application.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/Context.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/Context.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/IEventsHandler.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/IEventsHandler.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/Ports/BtsPort.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/Ports/BtsPort.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/Ports/BtsPort.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/Ports/BtsPort.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/Ports/IBtsPort.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/Ports/IBtsPort.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/Ports/ITimerPort.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/Ports/ITimerPort.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/Ports/IUserPort.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/Ports/IUserPort.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/Ports/TimerPort.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/Ports/TimerPort.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/Ports/TimerPort.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/Ports/TimerPort.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/Ports/UserPort.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/Ports/UserPort.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/Ports/UserPort.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/Ports/UserPort.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/States/BaseState.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/States/BaseState.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/States/BaseState.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/States/BaseState.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/States/ConnectedState.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/States/ConnectedState.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/States/ConnectedState.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/States/ConnectedState.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/States/ConnectingState.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/States/ConnectingState.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/States/ConnectingState.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/States/ConnectingState.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/States/NotConnectedState.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/States/NotConnectedState.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Application/States/NotConnectedState.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Application/States/NotConnectedState.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/ApplicationEnvironmentFactory.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/ApplicationEnvironmentFactory.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/ApplicationEnvironmentFactory.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/ApplicationEnvironmentFactory.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/IApplicationEnvironment.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/IApplicationEnvironment.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/IApplicationEnvironment.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/IApplicationEnvironment.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/ITransport.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/ITransport.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/ITransport.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/ITransport.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/IUeGui.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/IUeGui.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/IUeGui.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/IUeGui.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/ICallMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/ICallMode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/ICallMode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/ICallMode.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/IDialMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/IDialMode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/IDialMode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/IDialMode.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/IListViewMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/IListViewMode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/IListViewMode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/IListViewMode.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/ISmsComposeMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/ISmsComposeMode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/ISmsComposeMode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/ISmsComposeMode.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/ITextMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/ITextMode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/ITextMode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/ApplicationEnvironment/UeGui/ITextMode.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/UE/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/ApplicationEnvironment.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/ApplicationEnvironment.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/ApplicationEnvironment.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/ApplicationEnvironment.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/ApplicationEnvironmentFactory.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/ApplicationEnvironmentFactory.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtAlertMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtAlertMode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtAlertMode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtAlertMode.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtApplication.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtApplication.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtApplication.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtApplication.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtCallMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtCallMode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtCallMode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtCallMode.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtDialMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtDialMode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtDialMode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtDialMode.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtMainWindow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtMainWindow.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtMainWindow.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtMainWindow.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtPhoneNumberEdit.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtPhoneNumberEdit.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtPhoneNumberEdit.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtPhoneNumberEdit.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtSelectionListMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtSelectionListMode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtSelectionListMode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtSelectionListMode.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtSmsComposeMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtSmsComposeMode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtSmsComposeMode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtSmsComposeMode.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtStackedWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtStackedWidget.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtStackedWidget.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtStackedWidget.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtSubmitTextEdit.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtSubmitTextEdit.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtSubmitTextEdit.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtSubmitTextEdit.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtTextViewMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtTextViewMode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtTextViewMode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtTextViewMode.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtUeGui.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtUeGui.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtUeGui.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtUeGui.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtUeModeWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtUeModeWidget.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtUeModeWidget.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/GUI/QtUeModeWidget.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/Transport/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/Transport/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/Transport/Transport.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/Transport/Transport.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/QtApplicationEnvironment/Transport/Transport.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/QtApplicationEnvironment/Transport/Transport.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/Application/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/Application/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/Application/ApplicationTestSuite.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/Application/ApplicationTestSuite.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/Application/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/Application/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/Application/Mocks/IApplicationEnvironmentMock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/Application/Mocks/IApplicationEnvironmentMock.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/Application/Mocks/IApplicationEnvironmentMock.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/Application/Mocks/IApplicationEnvironmentMock.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/Application/Mocks/IBtsPortMock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/Application/Mocks/IBtsPortMock.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/Application/Mocks/IBtsPortMock.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/Application/Mocks/IBtsPortMock.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/Application/Mocks/ITimerPortMock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/Application/Mocks/ITimerPortMock.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/Application/Mocks/ITimerPortMock.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/Application/Mocks/ITimerPortMock.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/Application/Mocks/IUeGuiMock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/Application/Mocks/IUeGuiMock.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/Application/Mocks/IUeGuiMock.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/Application/Mocks/IUeGuiMock.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/Application/Mocks/IUserPortMock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/Application/Mocks/IUserPortMock.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/Application/Mocks/IUserPortMock.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/Application/Mocks/IUserPortMock.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/Application/Ports/BtsPortTestSuite.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/Application/Ports/BtsPortTestSuite.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/Application/Ports/TimerPortTestSuite.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/Application/Ports/TimerPortTestSuite.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/Application/Ports/UserPortTestSuite.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/Application/Ports/UserPortTestSuite.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/Tests/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/UE/Tests/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UE/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UE/main.cpp" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -21,6 +129,9 @@
     <expand />
     <select />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1ZzaOfiRUuv66XRNiZFGvogqm5M" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -29,10 +140,37 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DBE.Init.BalloonShown" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
   </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5d912bbd-03e1-48a6-bd39-8ad86ad9087f" name="Default Changelist" comment="" />
+      <created>1587034967570</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587034967570</updated>
+      <workItem from="1587034970316" duration="31000" />
+      <workItem from="1587035037419" duration="39000" />
+      <workItem from="1587035084172" duration="13000" />
+      <workItem from="1587036215002" duration="6000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
   <component name="WindowStateProjectService">
+    <state x="845" y="382" key="#Notifications" timestamp="1587035094266">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="845" y="382" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1587035094266" />
     <state x="656" y="343" key="com.intellij.ide.util.TipDialog" timestamp="1585844440693">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

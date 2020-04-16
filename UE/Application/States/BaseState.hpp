@@ -1,3 +1,5 @@
+#pragma once
+
 #include "IEventsHandler.hpp"
 #include "Logger/PrefixedLogger.hpp"
 #include "Context.hpp"
@@ -18,7 +20,7 @@ public:
     void handleSib(common::BtsId btsId) override;
     void handleAttachAccept() override;
     void handleAttachReject() override;
-    void handleDisconnect() override;
+    void handleDisconnected() override;
 
 protected:
     Context& context;
