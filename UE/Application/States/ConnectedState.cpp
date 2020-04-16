@@ -11,7 +11,7 @@ ConnectedState::ConnectedState(Context &context)
 
     void ConnectedState::handleDisconnected()
     {
-        logger.logInfo("disconnected");
+        logger.logInfo("Disconnected");
         context.setState<NotConnectedState>();
     }
 

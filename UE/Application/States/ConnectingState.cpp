@@ -1,11 +1,14 @@
 #include "ConnectingState.hpp"
+#include "NotConnectedState.hpp"
+#include "ConnectedState.hpp"
 
 namespace ue
 {
 
-    ConnectingState::ConnectingState(Context &context)
+    ConnectingState::ConnectingState(Context &context, common::BtsId btsId)
         : BaseState(context, "ConnectingState")
     {
+
     context.user.showConnecting();
     using namespace std::chrono_literals;
     context.bts.sendAttachRequest(btsId);
