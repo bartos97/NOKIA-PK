@@ -103,4 +103,48 @@ TEST_F(BtsPortTestSuite, shallHandleDiscconnected)
     disconnectedCallback();
 }
 
+TEST_F(BtsPortTestSuite, shallReceivingSmsFromUe)
+{
+    common::PhoneNumber receivingPhoneNumber{113};
+    const std::string& example = "example text";
+    common::OutgoingMessage o_msg{common::MessageId::Sms,
+                receivingPhoneNumber,
+                PHONE_NUMBER};
+    o_msg.writeBtsId(BTS_ID);
+    o_msg.writeText(example);
+    common::BinaryMessage msg = o_msg.getMessage();
+    //EXPECT_CALL(transportMock, sendMessage(_)).WillOnce(SaveArg<0>(&msg));
+    common::IncomingMessage reader(msg);
+
+    ASSERT_NO_THROW(EXPECT_EQ(common::MessageId::Sms, reader.readMessageId()) );
+    ASSERT_NO_THROW(EXPECT_EQ(receivingPhoneNumber, reader.readPhoneNumber()));
+    ASSERT_NO_THROW(EXPECT_EQ(PHONE_NUMBER, reader.readPhoneNumber()));
+    ASSERT_NO_THROW(EXPECT_EQ(BTS_ID, reader.readBtsId()));
+    ASSERT_NO_THROW(EXPECT_EQ(example, reader.readRemainingText()));
+    ASSERT_NO_THROW(reader.checkEndOfMessage());
+}
+
+TEST_F(BtsPortTestSuite, shallReceivingSms)
+{
+    common::PhoneNumber receivingPhoneNumber{113};
+    const std::string& example = "example text";
+    common::OutgoingMessage o_msg{common::MessageId::Sms,
+                receivingPhoneNumber,
+                PHONE_NUMBER};
+    o_msg.writeBtsId(BTS_ID);
+    o_msg.writeText(example);
+    common::BinaryMessage msg = o_msg.getMessage();
+    //EXPECT_CALL(transportMock, sendMessage(_)).WillOnce(SaveArg<0>(&msg));
+    common::IncomingMessage reader(msg);
+
+    ASSERT_NO_THROW(EXPECT_EQ(common::MessageId::Sms, reader.readMessageId()) );
+    ASSERT_NO_THROW(EXPECT_EQ(receivingPhoneNumber, reader.readPhoneNumber()));
+    auto from = reader.readPhoneNumber().value;
+    ASSERT_NO_THROW(EXPECT_EQ(BTS_ID, reader.readBtsId()));
+    const std::string& text = reader.readRemainingText();
+    ASSERT_NO_THROW(EXPECT_EQ(example, text));
+    ASSERT_NO_THROW(reader.checkEndOfMessage());
+    EXPECT_CALL(handlerMock, handleReceivingSms(from, text));
+}
+
 }

@@ -10,6 +10,8 @@ class ConnectedState : public BaseState
 public:
     ConnectedState(Context& context);
     void handleDisconnected();
+    void handleReceivingSms(int from ,const std::string& text);
+
 };
 
 }

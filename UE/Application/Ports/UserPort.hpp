@@ -18,8 +18,10 @@ public:
     void showNotConnected() override;
     void showConnecting() override;
     void showConnected() override;
+    void addSms(int from, const std::string &text) override;
 
 private:
+    std::vector<std::pair<int,std::string>> smses;
     common::PrefixedLogger logger;
     IUeGui& gui;
     common::PhoneNumber phoneNumber;

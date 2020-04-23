@@ -16,4 +16,10 @@ void ConnectedState::handleDisconnected()
     context.setState<NotConnectedState>();
 }
 
+void ConnectedState::handleReceivingSms(int from, const std::string &text)
+{
+    logger.logInfo("Receive sms from %d", from);
+    context.user.addSms(from, text);
+}
+
 }
