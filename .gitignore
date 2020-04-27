@@ -17,3 +17,8 @@ _deps
 build/
 *syslog*
 .vscode/
+
+# CMake
+cmake-build-*/
+
+.idea/

@@ -44,5 +44,4 @@ void BaseState::handleReceivingSms(int from, const std::string& text)
 {
     logger.logError("Sms not receiving");
 }
-
 }
