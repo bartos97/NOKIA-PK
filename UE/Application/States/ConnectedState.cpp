@@ -19,7 +19,7 @@ void ConnectedState::handleDisconnected()
 
 void ConnectedState::handleReceivingSms(int from, const std::string &text)
 {
-    logger.logInfo("Receive sms from %d", from);
+    logger.logInfo("Receive sms from ", from);
     context.user.addSms(from, text);
 }
 
