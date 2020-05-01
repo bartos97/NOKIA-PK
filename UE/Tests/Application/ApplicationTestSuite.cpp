@@ -40,9 +40,50 @@ TEST_F(ApplicationNotConnectedTestSuite, shallSetNotConnectedStateAtStartup)
 
 }
 
-TEST_F(ApplicationNotConnectedTestSuite, shallSendAttachRequestUponReceivingSIB)
+struct ApplicationConnectingTestSuite : ApplicationNotConnectedTestSuite
 {
-    EXPECT_CALL(btsPortMock, sendAttachRequest(BTS_ID));
-    objectUnderTest.handleSib(BTS_ID);
+    ApplicationConnectingTestSuite()
+    {
+        using namespace std::chrono_literals;
+        EXPECT_CALL(btsPortMock, sendAttachRequest(BTS_ID));
+        EXPECT_CALL(timerPortMock, startTimer(500ms));
+        EXPECT_CALL(userPortMock, showConnecting());
+        objectUnderTest.handleSib(BTS_ID);
+    }
+};
+
+TEST_F(ApplicationConnectingTestSuite, shallSendAttachRequestUponReceivingSIB)
+{
+    // implemented in Constructor of TestSuite
 }
+
+TEST_F(ApplicationConnectingTestSuite, shallShowNotConnectedOnAttachReject)
+{
+    EXPECT_CALL(userPortMock, showNotConnected());
+    EXPECT_CALL(timerPortMock, stopTimer());
+    objectUnderTest.handleAttachReject();
+}
+
+TEST_F(ApplicationConnectingTestSuite, shallShowNotConnectedOnTimeout)
+{
+    EXPECT_CALL(userPortMock, showNotConnected());
+    objectUnderTest.handleTimeout();
+}
+
+struct ApplicationConnectedTestSuite : ApplicationConnectingTestSuite
+{
+    ApplicationConnectedTestSuite()
+    {
+        EXPECT_CALL(userPortMock, showConnected());
+        EXPECT_CALL(timerPortMock, stopTimer());
+        objectUnderTest.handleAttachAccept();
+    }
+};
+
+TEST_F(ApplicationConnectedTestSuite, shallShowConnectedOnAttachAccept)
+{
+    // implemented in constructor of test-suite
+}
+
+
 }
