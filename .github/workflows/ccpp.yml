@@ -29,14 +29,14 @@ jobs:
     - name: UT for COMMON
       run: make COMMON_UT
 
-    - name: run COMMON ut
+    - name: UT for COMMON
       run: ./COMMON/Tests/COMMON_UT
 
     - name: UT for UeApplication
       run: make UeApplicationUT
 
-    - name: run UE ut
-      run: ./UE/Tests/Application/UeApplicationUT
+    - name: UT for COMMON
+      run: ./UE/Tests/Application/UEApplicationUT
 
     - name: next steps
       run: echo "karamba"
