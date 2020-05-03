@@ -18,6 +18,7 @@ class BtsPortTestSuite : public Test
 protected:
     const common::PhoneNumber PHONE_NUMBER{112};
     const common::BtsId BTS_ID{13121981ll};
+    const std::string TEXT{"example text"};
     NiceMock<common::ILoggerMock> loggerMock;
     StrictMock<IBtsEventsHandlerMock> handlerMock;
     StrictMock<common::ITransportMock> transportMock;
@@ -30,15 +31,16 @@ protected:
     {
         EXPECT_CALL(transportMock, registerMessageCallback(_))
                 .WillOnce(SaveArg<0>(&messageCallback));
+
         EXPECT_CALL(transportMock, registerDisconnectedCallback(_))
                 .WillOnce(SaveArg<0>(&disconnectedCallback));
+
         objectUnderTest.start(handlerMock);
     }
     ~BtsPortTestSuite()
     {
-
-        EXPECT_CALL(transportMock, registerMessageCallback(IsNull()));
         EXPECT_CALL(transportMock, registerDisconnectedCallback(IsNull()));
+        EXPECT_CALL(transportMock, registerMessageCallback(IsNull()));
         objectUnderTest.stop();
     }
 };
@@ -87,7 +89,7 @@ TEST_F(BtsPortTestSuite, shallHandleAttachReject)
 TEST_F(BtsPortTestSuite, shallSendAttachRequest)
 {
     common::BinaryMessage msg;
-    EXPECT_CALL(transportMock, sendMessage(_)).WillOnce(SaveArg<0>(&msg));
+    EXPECT_CALL(transportMock, sendMessage(_)).WillOnce([&msg](auto param) { msg = std::move(param); return true; });
     objectUnderTest.sendAttachRequest(BTS_ID);
     common::IncomingMessage reader(msg);
     ASSERT_NO_THROW(EXPECT_EQ(common::MessageId::AttachRequest, reader.readMessageId()) );
@@ -103,48 +105,40 @@ TEST_F(BtsPortTestSuite, shallHandleDiscconnected)
     disconnectedCallback();
 }
 
-TEST_F(BtsPortTestSuite, shallReceivingSmsFromUe)
+
+
+TEST_F(BtsPortTestSuite, shallReceivingCorrectSmsFromUe)
 {
     common::PhoneNumber receivingPhoneNumber{113};
-    const std::string& example = "example text";
     common::OutgoingMessage o_msg{common::MessageId::Sms,
                 receivingPhoneNumber,
                 PHONE_NUMBER};
     o_msg.writeBtsId(BTS_ID);
-    o_msg.writeText(example);
+    o_msg.writeText(TEXT);
     common::BinaryMessage msg = o_msg.getMessage();
-    //EXPECT_CALL(transportMock, sendMessage(_)).WillOnce(SaveArg<0>(&msg));
     common::IncomingMessage reader(msg);
 
     ASSERT_NO_THROW(EXPECT_EQ(common::MessageId::Sms, reader.readMessageId()) );
     ASSERT_NO_THROW(EXPECT_EQ(receivingPhoneNumber, reader.readPhoneNumber()));
     ASSERT_NO_THROW(EXPECT_EQ(PHONE_NUMBER, reader.readPhoneNumber()));
     ASSERT_NO_THROW(EXPECT_EQ(BTS_ID, reader.readBtsId()));
-    ASSERT_NO_THROW(EXPECT_EQ(example, reader.readRemainingText()));
+    ASSERT_NO_THROW(EXPECT_EQ(TEXT, reader.readRemainingText()));
     ASSERT_NO_THROW(reader.checkEndOfMessage());
 }
 
 TEST_F(BtsPortTestSuite, shallReceivingSms)
 {
     common::PhoneNumber receivingPhoneNumber{113};
-    const std::string& example = "example text";
-    common::OutgoingMessage o_msg{common::MessageId::Sms,
+    common::OutgoingMessage msg{common::MessageId::Sms,
                 receivingPhoneNumber,
                 PHONE_NUMBER};
-    o_msg.writeBtsId(BTS_ID);
-    o_msg.writeText(example);
-    common::BinaryMessage msg = o_msg.getMessage();
-    //EXPECT_CALL(transportMock, sendMessage(_)).WillOnce(SaveArg<0>(&msg));
-    common::IncomingMessage reader(msg);
+    msg.writeBtsId(BTS_ID);
+    msg.writeText(TEXT);
 
-    ASSERT_NO_THROW(EXPECT_EQ(common::MessageId::Sms, reader.readMessageId()) );
-    ASSERT_NO_THROW(EXPECT_EQ(receivingPhoneNumber, reader.readPhoneNumber()));
-    auto from = reader.readPhoneNumber().value;
-    ASSERT_NO_THROW(EXPECT_EQ(BTS_ID, reader.readBtsId()));
-    const std::string& text = reader.readRemainingText();
-    ASSERT_NO_THROW(EXPECT_EQ(example, text));
-    ASSERT_NO_THROW(reader.checkEndOfMessage());
-    EXPECT_CALL(handlerMock, handleReceivingSms(from, text));
+    EXPECT_CALL(handlerMock, handleReceivingSms(receivingPhoneNumber.value, TEXT));
+    messageCallback(msg.getMessage());
+
 }
+
 
 }

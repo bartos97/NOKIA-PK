@@ -57,11 +57,19 @@ TEST_F(UserPortTestSuite, shallShowMenuOnConnected)
     objectUnderTest.showConnected();
 }
 
-//TEST_F(UserPortTestSuite, shallShowMenuOnConnected)
-//{
-//    EXPECT_CALL(listViewModeMock, clearSelectionList());
-//    EXPECT_CALL(listViewModeMock, addSelectionListItem(_, _)).Times(AtLeast(1));
-//    objectUnderTest.showConnected();
-//}
+TEST_F(UserPortTestSuite, shallShowNewSms)
+{
+    EXPECT_CALL(guiMock, showNewSms());
+    objectUnderTest.showNewSms();
+}
+
+TEST_F(UserPortTestSuite, shallAddSmsToDB)
+{
+    int addressee = 123;
+    const std::string text{"example text"};
+    objectUnderTest.addSms(addressee, text);
+    ASSERT_NO_THROW(EXPECT_EQ(objectUnderTest.getSmses().at(0).text, text) );
+    ASSERT_NO_THROW(EXPECT_EQ(objectUnderTest.getSmses().at(0).number, addressee));
+}
 
 }

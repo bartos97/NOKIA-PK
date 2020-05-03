@@ -18,7 +18,6 @@ public:
     MOCK_METHOD(void, handleDisconnected, (), (final));
     MOCK_METHOD(void, handleReceivingSms, (int from, const std::string& text), (final));
 
-
 };
 
 class IBtsPortMock : public IBtsPort

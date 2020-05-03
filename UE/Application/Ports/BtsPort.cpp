@@ -60,7 +60,7 @@ void BtsPort::handleMessage(BinaryMessage msg)
             bool number_exist = to == phoneNumber;
             if(number_exist)
             {
-                auto btsId = reader.readBtsId();
+                reader.readBtsId();
                 std::string text = reader.readRemainingText();
                 handler->handleReceivingSms(from.value, text);
             }
