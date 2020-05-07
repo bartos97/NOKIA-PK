@@ -17,6 +17,7 @@ public:
     void handleTimeout() override;
 
     // IBtsEventsHandler interface
+    void handleReceivingSms(int from, const std::string& text) override;
     void handleSib(common::BtsId btsId) override;
     void handleAttachAccept() override;
     void handleAttachReject() override;

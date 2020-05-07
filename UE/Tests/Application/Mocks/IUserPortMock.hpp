@@ -23,6 +23,8 @@ public:
     MOCK_METHOD(void, showNotConnected, (), (final));
     MOCK_METHOD(void, showConnecting, (), (final));
     MOCK_METHOD(void, showConnected, (), (final));
+    MOCK_METHOD(void, addSms, (int from, const std::string& text), (final));
+    MOCK_METHOD(void, showNewSms, (), (final));
 };
 
 }

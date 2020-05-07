@@ -39,4 +39,20 @@ void UserPort::showConnected()
     menu.addSelectionListItem("View SMS", "");
 }
 
+void UserPort::addSms(int from, const std::string &text)
+{
+    Sms sms{from, text};
+    smses.push_back(sms);
+}
+
+void UserPort::showNewSms()
+{
+    gui.showNewSms();
+}
+
+std::vector<UserPort::Sms> UserPort::getSmses()
+{
+    return smses;
+}
+
 }

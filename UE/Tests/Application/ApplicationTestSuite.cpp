@@ -85,5 +85,10 @@ TEST_F(ApplicationConnectedTestSuite, shallShowConnectedOnAttachAccept)
     // implemented in constructor of test-suite
 }
 
+TEST_F(ApplicationConnectedTestSuite, shallShowAndAddNewSmsOnReceiveSms)
+{
+    EXPECT_CALL(userPortMock, addSms(123, "example text"));
+    objectUnderTest.handleReceivingSms(123, "example text");
+}
 
 }

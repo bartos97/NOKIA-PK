@@ -34,6 +34,7 @@ void BtsPort::handleMessage(BinaryMessage msg)
         auto from = reader.readPhoneNumber();
         auto to = reader.readPhoneNumber();
 
+
         switch (msgId)
         {
         case common::MessageId::Sib:
@@ -46,9 +47,23 @@ void BtsPort::handleMessage(BinaryMessage msg)
         {
             bool accept = reader.readNumber<std::uint8_t>() != 0u;
             if (accept)
+            {
                 handler->handleAttachAccept();
+            }
             else
                 handler->handleAttachReject();
+            break;
+        }
+        case common::MessageId::Sms:
+        {
+
+            bool number_exist = to == phoneNumber;
+            if(number_exist)
+            {
+                reader.readBtsId();
+                std::string text = reader.readRemainingText();
+                handler->handleReceivingSms(from.value, text);
+            }
             break;
         }
         default:

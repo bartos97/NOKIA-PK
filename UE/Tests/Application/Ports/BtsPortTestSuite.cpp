@@ -18,6 +18,7 @@ class BtsPortTestSuite : public Test
 protected:
     const common::PhoneNumber PHONE_NUMBER{112};
     const common::BtsId BTS_ID{13121981ll};
+    const std::string TEXT{"example text"};
     NiceMock<common::ILoggerMock> loggerMock;
     StrictMock<IBtsEventsHandlerMock> handlerMock;
     StrictMock<common::ITransportMock> transportMock;
@@ -97,5 +98,47 @@ TEST_F(BtsPortTestSuite, shallSendAttachRequest)
     ASSERT_NO_THROW(EXPECT_EQ(BTS_ID, reader.readBtsId()));
     ASSERT_NO_THROW(reader.checkEndOfMessage());
 }
+
+TEST_F(BtsPortTestSuite, shallHandleDiscconnected)
+{
+    EXPECT_CALL(handlerMock, handleDisconnected());
+    disconnectedCallback();
+}
+
+
+
+TEST_F(BtsPortTestSuite, shallReceivingCorrectSmsFromUe)
+{
+    common::PhoneNumber receivingPhoneNumber{113};
+    common::OutgoingMessage o_msg{common::MessageId::Sms,
+                receivingPhoneNumber,
+                PHONE_NUMBER};
+    o_msg.writeBtsId(BTS_ID);
+    o_msg.writeText(TEXT);
+    common::BinaryMessage msg = o_msg.getMessage();
+    common::IncomingMessage reader(msg);
+
+    ASSERT_NO_THROW(EXPECT_EQ(common::MessageId::Sms, reader.readMessageId()) );
+    ASSERT_NO_THROW(EXPECT_EQ(receivingPhoneNumber, reader.readPhoneNumber()));
+    ASSERT_NO_THROW(EXPECT_EQ(PHONE_NUMBER, reader.readPhoneNumber()));
+    ASSERT_NO_THROW(EXPECT_EQ(BTS_ID, reader.readBtsId()));
+    ASSERT_NO_THROW(EXPECT_EQ(TEXT, reader.readRemainingText()));
+    ASSERT_NO_THROW(reader.checkEndOfMessage());
+}
+
+TEST_F(BtsPortTestSuite, shallReceivingSms)
+{
+    common::PhoneNumber receivingPhoneNumber{113};
+    common::OutgoingMessage msg{common::MessageId::Sms,
+                receivingPhoneNumber,
+                PHONE_NUMBER};
+    msg.writeBtsId(BTS_ID);
+    msg.writeText(TEXT);
+
+    EXPECT_CALL(handlerMock, handleReceivingSms(receivingPhoneNumber.value, TEXT));
+    messageCallback(msg.getMessage());
+
+}
+
 
 }

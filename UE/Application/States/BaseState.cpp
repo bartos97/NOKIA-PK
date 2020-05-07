@@ -35,8 +35,14 @@ void BaseState::handleAttachReject()
     logger.logError("Uexpected: handleAttachReject");
 }
 
-    void BaseState::handleDisconnected()
-    {
-        logger.logError("Uexpected: handleDisconnected");
-    }
+void BaseState::handleDisconnected()
+{
+    logger.logError("Uexpected: handleDisconnected");
+}
+
+void BaseState::handleReceivingSms(int from, const std::string& text)
+{
+    logger.logError("Sms not receiving");
+}
+
 }
