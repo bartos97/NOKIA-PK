@@ -5,16 +5,18 @@
 namespace ue
 {
 
-BtsPort::BtsPort(common::ILogger &logger, common::ITransport &transport, common::PhoneNumber phoneNumber)
+BtsPort::BtsPort(common::ILogger& logger, common::ITransport& transport, common::PhoneNumber phoneNumber)
     : logger(logger, "[BTS-PORT]"),
       transport(transport),
       phoneNumber(phoneNumber)
-{}
-
-void BtsPort::start(IBtsEventsHandler &handler)
 {
-    transport.registerMessageCallback([this](BinaryMessage msg) {handleMessage(msg);});
-    transport.registerDisconnectedCallback([this]{handleDisconnected();});
+
+}
+
+void BtsPort::start(IBtsEventsHandler& handler)
+{
+    transport.registerMessageCallback([this](BinaryMessage msg) { handleMessage(msg); });
+    transport.registerDisconnectedCallback([this] { handleDisconnected(); });
     this->handler = &handler;
 }
 
@@ -27,56 +29,43 @@ void BtsPort::stop()
 
 void BtsPort::handleMessage(BinaryMessage msg)
 {
-    try
-    {
+    try {
         common::IncomingMessage reader{msg};
         auto msgId = reader.readMessageId();
         auto from = reader.readPhoneNumber();
         auto to = reader.readPhoneNumber();
 
-
-        switch (msgId)
-        {
-        case common::MessageId::Sib:
-        {
-            auto btsId = reader.readBtsId();
-            handler->handleSib(btsId);
-            break;
-        }
-        case common::MessageId::AttachResponse:
-        {
-            bool accept = reader.readNumber<std::uint8_t>() != 0u;
-            if (accept)
-            {
-                handler->handleAttachAccept();
+        switch (msgId) {
+            case common::MessageId::Sib: {
+                auto btsId = reader.readBtsId();
+                handler->handleSib(btsId);
+                break;
             }
-            else
-                handler->handleAttachReject();
-            break;
-        }
-        case common::MessageId::Sms:
-        {
-
-            bool number_exist = to == phoneNumber;
-            if(number_exist)
-            {
-                reader.readBtsId();
-                std::string text = reader.readRemainingText();
-                handler->handleReceivingSms(from.value, text);
+            case common::MessageId::AttachResponse: {
+                bool accept = reader.readNumber<std::uint8_t>() != 0u;
+                if (accept) {
+                    handler->handleAttachAccept();
+                } else
+                    handler->handleAttachReject();
+                break;
             }
-            break;
-        }
-        default:
-            logger.logError("unknow message: ", msgId, ", from: ", from);
-
+            case common::MessageId::Sms: {
+                bool number_exist = to == phoneNumber;
+                if (number_exist) {
+                    reader.readBtsId();
+                    std::string text = reader.readRemainingText();
+                    handler->handleReceivingSms(from, text);
+                }
+                break;
+            }
+            default:
+                logger.logError("unknown message: ", msgId, ", from: ", from);
         }
     }
-    catch (std::exception const& ex)
-    {
+    catch (std::exception const& ex) {
         logger.logError("handleMessage error: ", ex.what());
     }
 }
-
 
 void BtsPort::sendAttachRequest(common::BtsId btsId)
 {
@@ -86,7 +75,6 @@ void BtsPort::sendAttachRequest(common::BtsId btsId)
                                 common::PhoneNumber{}};
     msg.writeBtsId(btsId);
     transport.sendMessage(msg.getMessage());
-
 
 }
 

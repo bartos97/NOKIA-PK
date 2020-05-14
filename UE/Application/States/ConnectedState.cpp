@@ -4,9 +4,10 @@
 namespace ue
 {
 
-ConnectedState::ConnectedState(Context &context)
+ConnectedState::ConnectedState(Context& context)
     : BaseState(context, "ConnectedState")
-{  context.user.showConnected();
+{
+    context.user.showConnected();
 }
 
 void ConnectedState::handleDisconnected()
@@ -15,10 +16,10 @@ void ConnectedState::handleDisconnected()
     context.setState<NotConnectedState>();
 }
 
-void ConnectedState::handleReceivingSms(int from, const std::string &text)
+void ConnectedState::handleReceivingSms(common::PhoneNumber senderNumber, const std::string& text)
 {
-    logger.logInfo("Receive sms from ", from);
-    context.user.addSms(from, text);
+    logger.logInfo("Receive sms from ", senderNumber);
+    context.user.addReceivedSms(senderNumber, text);
     //context.user.showNewSms();
 }
 

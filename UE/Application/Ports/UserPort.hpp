@@ -8,35 +8,65 @@
 namespace ue
 {
 
+enum class GUIView
+{
+    MAIN_MENU,
+    COMPOSE_SMS,
+    RECEIVED_SMS_LIST,
+    SENT_SMS_LIST,
+    SMS
+};
+
+enum class MainMenuItem
+{
+    COMPOSE_SMS,
+};
+
 class UserPort : public IUserPort
 {
-    struct Sms;
+public:
+    struct SMS
+    {
+        const common::PhoneNumber senderNumber;
+        const std::string text;
+        bool isRead;
+
+        SMS(const common::PhoneNumber senderNumber, const std::string& text)
+                : senderNumber(senderNumber), text(text), isRead(false)
+        {}
+    };
+
 public:
     UserPort(common::ILogger& logger, IUeGui& gui, common::PhoneNumber phoneNumber);
     void start(IUserEventsHandler& handler);
     void stop();
-    std::vector<Sms> getSmses();
+    const std::vector<SMS>& getSMSes();
 
     void showNotConnected() override;
     void showConnecting() override;
     void showConnected() override;
-    void addSms(int from, const std::string &text) override;
+    void addReceivedSms(const common::PhoneNumber senderNumber, const std::string& text) override;
     void showNewSms() override;
 
+private:
+    void changeCurrentView(GUIView newView);
+    void goToView(GUIView view);
+    void showMainMenu();
+    void mainMenuAcceptCallback(IUeGui::IListViewMode& menu);
+    void showComposeSmsView();
+    void showReceivedSmsListView();
+    void showSentSmsListView();
+    void showSmsView(size_t smsIndex);
 
 private:
-
-    struct Sms{
-        int number;
-        const std::string text;
-        Sms(int number,const std::string& text): number(number), text(text){}
-    };
-
-    std::vector<Sms> smses;
     common::PrefixedLogger logger;
     IUeGui& gui;
     common::PhoneNumber phoneNumber;
-    IUserEventsHandler* handler = nullptr;
+    IUserEventsHandler *handler = nullptr;
+
+    std::vector<SMS> SMSes;
+    GUIView currentView;
+    GUIView previousView;
 };
 
 }

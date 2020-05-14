@@ -33,7 +33,8 @@ protected:
 };
 
 struct ApplicationNotConnectedTestSuite : ApplicationTestSuite
-{};
+{
+};
 
 TEST_F(ApplicationNotConnectedTestSuite, shallSetNotConnectedStateAtStartup)
 {
@@ -87,8 +88,8 @@ TEST_F(ApplicationConnectedTestSuite, shallShowConnectedOnAttachAccept)
 
 TEST_F(ApplicationConnectedTestSuite, shallShowAndAddNewSmsOnReceiveSms)
 {
-    EXPECT_CALL(userPortMock, addSms(123, "example text"));
-    objectUnderTest.handleReceivingSms(123, "example text");
+    EXPECT_CALL(userPortMock, addReceivedSms(common::PhoneNumber{123}, "example text"));
+    objectUnderTest.handleReceivingSms(common::PhoneNumber{123}, "example text");
 }
 
 }

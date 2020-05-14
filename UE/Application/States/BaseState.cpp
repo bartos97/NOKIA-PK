@@ -1,3 +1,4 @@
+#include <Messages/PhoneNumber.hpp>
 #include "BaseState.hpp"
 
 namespace ue
@@ -17,32 +18,32 @@ BaseState::~BaseState()
 
 void BaseState::handleTimeout()
 {
-    logger.logError("Uexpected: handleTimeout");
+    logger.logError("Unexpected: handleTimeout");
 }
 
 void BaseState::handleSib(common::BtsId btsId)
 {
-    logger.logError("Uexpected: handleSib: ", btsId);
+    logger.logError("Unexpected: handleSib: ", btsId);
 }
 
 void BaseState::handleAttachAccept()
 {
-    logger.logError("Uexpected: handleTimeout");
+    logger.logError("Unexpected: handleTimeout");
 }
 
 void BaseState::handleAttachReject()
 {
-    logger.logError("Uexpected: handleAttachReject");
+    logger.logError("Unexpected: handleAttachReject");
 }
 
 void BaseState::handleDisconnected()
 {
-    logger.logError("Uexpected: handleDisconnected");
+    logger.logError("Unexpected: handleDisconnected");
 }
 
-void BaseState::handleReceivingSms(int from, const std::string& text)
+void BaseState::handleReceivingSms(const common::PhoneNumber senderNumber, const std::string& text)
 {
-    logger.logError("Sms not receiving");
+    logger.logError("Unexpected: handleReceivingSms");
 }
 
 }

@@ -46,9 +46,9 @@ void Application::handleDisconnected()
     context.state->handleDisconnected();
 }
 
-void Application::handleReceivingSms(int from, const std::string &text)
+void Application::handleReceivingSms(common::PhoneNumber senderNumber, const std::string &text)
 {
-    context.state->handleReceivingSms(from, text);
+    context.state->handleReceivingSms(senderNumber, text);
 }
 
 }

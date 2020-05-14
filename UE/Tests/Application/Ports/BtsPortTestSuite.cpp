@@ -135,9 +135,8 @@ TEST_F(BtsPortTestSuite, shallReceivingSms)
     msg.writeBtsId(BTS_ID);
     msg.writeText(TEXT);
 
-    EXPECT_CALL(handlerMock, handleReceivingSms(receivingPhoneNumber.value, TEXT));
+    EXPECT_CALL(handlerMock, handleReceivingSms(receivingPhoneNumber, TEXT));
     messageCallback(msg.getMessage());
-
 }
 
 

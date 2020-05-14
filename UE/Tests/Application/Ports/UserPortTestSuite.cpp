@@ -27,6 +27,7 @@ protected:
         EXPECT_CALL(guiMock, setTitle(HasSubstr(to_string(PHONE_NUMBER))));
         objectUnderTest.start(handlerMock);
     }
+
     ~UserPortTestSuite()
     {
         objectUnderTest.stop();
@@ -65,11 +66,11 @@ TEST_F(UserPortTestSuite, shallShowNewSms)
 
 TEST_F(UserPortTestSuite, shallAddSmsToDB)
 {
-    int addressee = 123;
+    const common::PhoneNumber senderNumber{123};
     const std::string text{"example text"};
-    objectUnderTest.addSms(addressee, text);
-    ASSERT_NO_THROW(EXPECT_EQ(objectUnderTest.getSmses().at(0).text, text) );
-    ASSERT_NO_THROW(EXPECT_EQ(objectUnderTest.getSmses().at(0).number, addressee));
+    objectUnderTest.addReceivedSms(senderNumber, text);
+    ASSERT_NO_THROW(EXPECT_EQ(objectUnderTest.getSMSes().at(0).text, text));
+    ASSERT_NO_THROW(EXPECT_EQ(objectUnderTest.getSMSes().at(0).senderNumber, senderNumber));
 }
 
 }
