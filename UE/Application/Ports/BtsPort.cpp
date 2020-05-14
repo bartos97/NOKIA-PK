@@ -52,8 +52,8 @@ void BtsPort::handleMessage(BinaryMessage msg)
             case common::MessageId::Sms: {
                 bool number_exist = to == phoneNumber;
                 if (number_exist) {
-                    reader.readBtsId();
                     std::string text = reader.readRemainingText();
+                    logger.logDebug("received sms text: ", text);
                     handler->handleReceivingSms(from, text);
                 }
                 break;
@@ -84,10 +84,10 @@ void BtsPort::handleDisconnected()
 
 void BtsPort::sendingSms(common::PhoneNumber nr, std::string text)
 {
-    logger.logDebug("sendingSms: ", nr);
     common::OutgoingMessage msg{common::MessageId::Sms, phoneNumber, nr};
     msg.writeText(text);
     transport.sendMessage(msg.getMessage());
+    logger.logDebug("sent sms text: ", text);
 }
 
 }
