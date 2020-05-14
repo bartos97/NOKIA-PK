@@ -19,15 +19,26 @@ protected:
     StrictMock<IUserEventsHandlerMock> handlerMock;
     StrictMock<IUeGuiMock> guiMock;
     StrictMock<IListViewModeMock> listViewModeMock;
+    StrictMock<ISmsComposeModeMock> smsComposeModeMock;
+    StrictMock<IDialModeMock> dialModeMock;
+    StrictMock<ICallModeMock> callModeMock;
+    StrictMock<ITextModeMock> textModeMock;
+
+    IUeGui::Callback acceptCallback;
+    IUeGui::Callback rejectCallback;
 
     UserPort objectUnderTest{loggerMock, guiMock, PHONE_NUMBER};
 
     UserPortTestSuite()
     {
         EXPECT_CALL(guiMock, setTitle(HasSubstr(to_string(PHONE_NUMBER))));
+        EXPECT_CALL(guiMock, setAcceptCallback(_))
+            .WillOnce(SaveArg<0>(&acceptCallback));
+        EXPECT_CALL(guiMock, setRejectCallback(_))
+            .WillOnce(SaveArg<0>(&rejectCallback));
+
         objectUnderTest.start(handlerMock);
     }
-
     ~UserPortTestSuite()
     {
         objectUnderTest.stop();

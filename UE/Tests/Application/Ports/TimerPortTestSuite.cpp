@@ -17,13 +17,13 @@ protected:
     NiceMock<common::ILoggerMock> loggerMock;
     StrictMock<ITimerEventsHandlerMock> handlerMock;
 
-
     TimerPort objectUnderTest{loggerMock};
 
     TimerPortTestSuite()
     {
         objectUnderTest.start(handlerMock);
     }
+
     ~TimerPortTestSuite()
     {
         objectUnderTest.stop();

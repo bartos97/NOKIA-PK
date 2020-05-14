@@ -75,7 +75,6 @@ void BtsPort::sendAttachRequest(common::BtsId btsId)
                                 common::PhoneNumber{}};
     msg.writeBtsId(btsId);
     transport.sendMessage(msg.getMessage());
-
 }
 
 void BtsPort::handleDisconnected()
@@ -86,10 +85,9 @@ void BtsPort::handleDisconnected()
 void BtsPort::sendingSms(common::PhoneNumber nr, std::string text)
 {
     logger.logDebug("sendingSms: ", nr);
-    common::OutgoingMessage msg {common::MessageId::Sms,phoneNumber,nr};
-        msg.writeText(text);
-        transport.sendMessage(msg.getMessage());
+    common::OutgoingMessage msg{common::MessageId::Sms, phoneNumber, nr};
+    msg.writeText(text);
+    transport.sendMessage(msg.getMessage());
 }
-
 
 }

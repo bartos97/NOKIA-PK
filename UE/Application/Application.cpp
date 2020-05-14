@@ -5,10 +5,10 @@ namespace ue
 {
 
 Application::Application(common::PhoneNumber phoneNumber,
-                         common::ILogger &iLogger,
-                         IBtsPort &bts,
-                         IUserPort &user,
-                         ITimerPort &timer)
+                         common::ILogger& iLogger,
+                         IBtsPort& bts,
+                         IUserPort& user,
+                         ITimerPort& timer)
     : context{iLogger, bts, user, timer},
       logger(iLogger, "[APP] ")
 {
@@ -46,12 +46,14 @@ void Application::handleDisconnected()
     context.state->handleDisconnected();
 }
 
-void Application::handleReceivingSms(common::PhoneNumber senderNumber, const std::string &text)
+void Application::handleReceivingSms(common::PhoneNumber senderNumber, const std::string& text)
 {
     context.state->handleReceivingSms(senderNumber, text);
 }
-void Application::handleSendingSms(common::PhoneNumber nr, std::string text) {
-        context.state->handleSendingSms(nr, text);
-    }
+
+void Application::handleSendingSms(common::PhoneNumber nr, std::string text)
+{
+    context.state->handleSendingSms(nr, text);
+}
 
 }

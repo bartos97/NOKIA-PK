@@ -3,6 +3,7 @@
 #include "IUserPort.hpp"
 #include "Logger/PrefixedLogger.hpp"
 #include "IUeGui.hpp"
+#include "UeGui/IListViewMode.hpp"
 #include "Messages/PhoneNumber.hpp"
 
 namespace ue
@@ -40,33 +41,38 @@ public:
     UserPort(common::ILogger& logger, IUeGui& gui, common::PhoneNumber phoneNumber);
     void start(IUserEventsHandler& handler);
     void stop();
-    const std::vector<SMS>& getSMSes();
+    const std::vector<SMS>& getSMSes() { return receivedSmsDb; }
 
     void showNotConnected() override;
     void showConnecting() override;
     void showConnected() override;
-    void addReceivedSms(const common::PhoneNumber senderNumber, const std::string& text) override;
     void showNewSms() override;
+    void addReceivedSms(const common::PhoneNumber senderNumber, const std::string& text) override;
 
 private:
-    void changeCurrentView(GUIView newView);
-    void goToView(GUIView view);
-    void showMainMenu();
-    void mainMenuAcceptCallback(IUeGui::IListViewMode& menu);
+    void setCurrentView(GUIView newView);
+    void goToPreviousView();
+
+    void showMainMenuView();
     void showComposeSmsView();
     void showReceivedSmsListView();
     void showSentSmsListView();
     void showSmsView(size_t smsIndex);
 
 private:
+    static const std::function<void()> EMPTY_CALLBACK;
+
     common::PrefixedLogger logger;
     IUeGui& gui;
     common::PhoneNumber phoneNumber;
     IUserEventsHandler *handler = nullptr;
 
-    std::vector<SMS> SMSes;
     GUIView currentView;
     GUIView previousView;
+    std::function<void()> onAccept;
+    std::function<void()> onReject;
+
+    std::vector<SMS> receivedSmsDb;
 };
 
 }

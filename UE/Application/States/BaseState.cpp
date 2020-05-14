@@ -4,7 +4,7 @@
 namespace ue
 {
 
-BaseState::BaseState(Context &context, const std::string &name)
+BaseState::BaseState(Context& context, const std::string& name)
     : context(context),
       logger(context.logger, "[" + name + "]")
 {
@@ -47,9 +47,8 @@ void BaseState::handleReceivingSms(const common::PhoneNumber senderNumber, const
 }
 
 void BaseState::handleSendingSms(common::PhoneNumber nr, std::string text)
-    {
-        logger.logError("Unexpected: handleSendingSms");
-    }
-
+{
+    logger.logError("Unexpected: handleSendingSms");
+}
 
 }

@@ -5,8 +5,8 @@
 namespace ue
 {
 
-ConnectingState::ConnectingState(Context &context, common::BtsId btsId)
-        : BaseState(context, "ConnectingState")
+ConnectingState::ConnectingState(Context& context, common::BtsId btsId)
+    : BaseState(context, "ConnectingState")
 {
     context.user.showConnecting();
     using namespace std::chrono_literals;

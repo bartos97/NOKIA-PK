@@ -27,7 +27,6 @@ void ConnectedState::handleSendingSms(common::PhoneNumber nr, std::string text)
 {
     logger.logInfo("Send sms to ", nr);
     context.bts.sendingSms(nr, text);
-
 }
 
 }

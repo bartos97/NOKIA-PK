@@ -1,5 +1,4 @@
 #include "UserPort.hpp"
-#include "UeGui/IListViewMode.hpp"
 #include "UeGui/ITextMode.hpp"
 #include "UeGui/ISmsComposeMode.hpp"
 #include <vector>
@@ -8,6 +7,7 @@
 
 namespace ue
 {
+const std::function<void()> UserPort::EMPTY_CALLBACK = []{};
 
 UserPort::UserPort(common::ILogger& logger, IUeGui& gui, common::PhoneNumber phoneNumber)
     : logger(logger, "[USER-PORT]"),
@@ -19,6 +19,17 @@ void UserPort::start(IUserEventsHandler& handler)
 {
     this->handler = &handler;
     gui.setTitle("Nokia " + to_string(phoneNumber));
+    gui.setAcceptCallback([this]{ onAccept(); });
+    gui.setRejectCallback([this]{ onReject(); });
+
+    // tmp mock data
+//    receivedSmsDb.emplace_back(
+//    common::PhoneNumber{50},
+//    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+//    );
+//    receivedSmsDb.emplace_back(common::PhoneNumber{50}, "message2");
+//    receivedSmsDb.emplace_back(common::PhoneNumber{51}, "message3");
+//    receivedSmsDb.emplace_back(common::PhoneNumber{52}, "message4");
 }
 
 void UserPort::stop()
@@ -38,12 +49,7 @@ void UserPort::showConnecting()
 
 void UserPort::showConnected()
 {
-    showMainMenu();
-}
-
-void UserPort::addReceivedSms(const PhoneNumber senderNumber, const std::string& text)
-{
-    SMSes.emplace_back(senderNumber, text);
+    showMainMenuView();
 }
 
 void UserPort::showNewSms()
@@ -51,87 +57,110 @@ void UserPort::showNewSms()
     gui.showNewSms();
 }
 
-const std::vector<UserPort::SMS>& UserPort::getSMSes()
+void UserPort::addReceivedSms(const common::PhoneNumber senderNumber, const std::string& text)
 {
-    return SMSes;
+    receivedSmsDb.emplace_back(senderNumber, text);
 }
 
-void UserPort::changeCurrentView(GUIView newView)
+void inline UserPort::setCurrentView(GUIView newView)
 {
     previousView = currentView;
     currentView = newView;
+    onReject = UserPort::EMPTY_CALLBACK;
+    onAccept = UserPort::EMPTY_CALLBACK;
 }
 
-void UserPort::showMainMenu()
+void UserPort::goToPreviousView()
 {
-    changeCurrentView(GUIView::MAIN_MENU);
-
-    IUeGui::IListViewMode& menu = gui.setListViewMode();
-    menu.clearSelectionList();
-    menu.addSelectionListItem("Compose SMS", "");
-    menu.addSelectionListItem("View received SMSes", "");
-    menu.addSelectionListItem("View sent SMSes", "");
-
-    gui.setAcceptCallback([&] {
-        mainMenuAcceptCallback(menu);
-    });
-}
-
-void UserPort::mainMenuAcceptCallback(IUeGui::IListViewMode& menu)
-{
-    switch (menu.getCurrentItemIndex().second) {
-        case 0:
-            showComposeSmsView(); break;
-        case 1:
-            showReceivedSmsListView(); break;
-        case 2:
-            showSentSmsListView(); break;
+    switch (previousView) {
+        case GUIView::MAIN_MENU:
+            showMainMenuView();
+            return;
+        case GUIView::SENT_SMS_LIST:
+            showSentSmsListView();
+            return;
+        case GUIView::RECEIVED_SMS_LIST:
+            showReceivedSmsListView();
+            return;
+        case GUIView::COMPOSE_SMS:
+            showComposeSmsView();
+            return;
+        case GUIView::SMS:
+            showMainMenuView();
+            return;
     }
+}
+
+void UserPort::showMainMenuView()
+{
+    setCurrentView(GUIView::MAIN_MENU);
+
+    auto& currentListView = gui.setListViewMode();
+    currentListView.clearSelectionList();
+    currentListView.addSelectionListItem("Compose SMS", "");
+    currentListView.addSelectionListItem("View received SMSes", "");
+    currentListView.addSelectionListItem("View sent SMSes", "");
+
+    onAccept = [&]{
+        switch (currentListView.getCurrentItemIndex().second) {
+            case 0:
+                showComposeSmsView();
+                break;
+            case 1:
+                showReceivedSmsListView();
+                break;
+            case 2:
+                showSentSmsListView();
+                break;
+        }
+    };
 }
 
 void UserPort::showComposeSmsView()
 {
-    changeCurrentView(GUIView::COMPOSE_SMS);
+    setCurrentView(GUIView::COMPOSE_SMS);
+    auto& composeSms = gui.setSmsComposeMode();
 
-    IUeGui::ISmsComposeMode& composeSms = gui.setSmsComposeMode();
-    gui.setAcceptCallback([&](){handler->handleSendingSms(composeSms.getPhoneNumber(),composeSms.getSmsText());
+    onAccept = [&]{
+        handler->handleSendingSms(composeSms.getPhoneNumber(), composeSms.getSmsText());
         composeSms.clearSmsText();
-        showConnected();
-    });
-    gui.setRejectCallback([&](){
-        showConnected();
-    });
+        showMainMenuView();
+    };
+
+    onReject = [&]{
+        showMainMenuView();
+    };
 }
 
 void UserPort::showReceivedSmsListView()
 {
-    changeCurrentView(GUIView::RECEIVED_SMS_LIST);
+    setCurrentView(GUIView::RECEIVED_SMS_LIST);
 
     constexpr unsigned int MAX_TOOLTIP_LENGTH = 30;
-    auto& smsListView = gui.setListViewMode();
-    smsListView.clearSelectionList();
+    auto& currentListView = gui.setListViewMode();
+    currentListView.clearSelectionList();
 
     std::string itemLabel, itemTooltip;
-    for (const auto& sms : SMSes) {
+    for (const auto& sms : receivedSmsDb) {
         itemLabel = sms.isRead ? "" : "[NEW] ";
         itemLabel += "From: " + common::to_string(sms.senderNumber);
         itemTooltip = sms.text.length() > MAX_TOOLTIP_LENGTH ?
-            sms.text.substr(0, MAX_TOOLTIP_LENGTH) + "..." : sms.text;
-        smsListView.addSelectionListItem(itemLabel, itemTooltip);
+                      sms.text.substr(0, MAX_TOOLTIP_LENGTH) + "..." : sms.text;
+        currentListView.addSelectionListItem(itemLabel, itemTooltip);
     }
 
-    gui.setAcceptCallback([&] {
-        showSmsView(smsListView.getCurrentItemIndex().second);
-    });
+    onAccept = [&]{
+        showSmsView(currentListView.getCurrentItemIndex().second);
+    };
 
-    gui.setRejectCallback([&] {
-        goToView(previousView);
-    });
+    onReject = [&]{
+        goToPreviousView();
+    };
 }
 
 void UserPort::showSentSmsListView()
 {
-    changeCurrentView(GUIView::SENT_SMS_LIST);
+    setCurrentView(GUIView::SENT_SMS_LIST);
 
     auto& smsListView = gui.setListViewMode();
     smsListView.clearSelectionList();
@@ -139,30 +168,16 @@ void UserPort::showSentSmsListView()
 
 void UserPort::showSmsView(size_t smsIndex)
 {
-    changeCurrentView(GUIView::SMS);
+    setCurrentView(GUIView::SMS);
 
-    auto& sms = SMSes.at(smsIndex);
+    auto& sms = receivedSmsDb.at(smsIndex);
     IUeGui::ITextMode& smsView = gui.setViewTextMode();
     sms.isRead = true;
     smsView.setText(sms.text);
 
-    gui.setRejectCallback([&] {
-        goToView(previousView);
-    });
-}
-
-void UserPort::goToView(GUIView view)
-{
-    switch (view) {
-        case GUIView::MAIN_MENU:
-            showMainMenu(); return;
-        case GUIView::SENT_SMS_LIST:
-            showSentSmsListView(); return;
-        case GUIView::RECEIVED_SMS_LIST:
-            showReceivedSmsListView(); return;
-        case GUIView::COMPOSE_SMS:
-            showComposeSmsView(); return;
-    }
+    onReject = [&]{
+        goToPreviousView();
+    };
 }
 
 }
