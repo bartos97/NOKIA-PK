@@ -22,6 +22,7 @@ public:
     void showConnected() override;
     void addSms(int from, const std::string &text) override;
     void showNewSms() override;
+    void showComposeSms();
 
 
 private:
@@ -31,7 +32,7 @@ private:
         const std::string text;
         Sms(int number,const std::string& text): number(number), text(text){}
     };
-
+    void chooseMenu(IUeGui::IListViewMode& menu);
     std::vector<Sms> smses;
     common::PrefixedLogger logger;
     IUeGui& gui;
