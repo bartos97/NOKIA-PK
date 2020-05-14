@@ -12,6 +12,7 @@ public:
     ConnectedState(Context& context);
     void handleDisconnected();
     void handleReceivingSms(const common::PhoneNumber senderNumber , const std::string& text);
+    void handleSendingSms(common::PhoneNumber nr, std::string text);
 
 };
 

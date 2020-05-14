@@ -1,6 +1,10 @@
 #include "UserPort.hpp"
 #include "UeGui/IListViewMode.hpp"
 #include "UeGui/ITextMode.hpp"
+#include "UeGui/ISmsComposeMode.hpp"
+#include <vector>
+#include <iostream>
+#include <string>
 
 namespace ue
 {
@@ -9,16 +13,7 @@ UserPort::UserPort(common::ILogger& logger, IUeGui& gui, common::PhoneNumber pho
     : logger(logger, "[USER-PORT]"),
       gui(gui),
       phoneNumber(phoneNumber)
-{
-    // tmp mock data
-//    SMSes.emplace_back(
-//    common::PhoneNumber{50},
-//    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-//    );
-//    SMSes.emplace_back(common::PhoneNumber{50}, "message2");
-//    SMSes.emplace_back(common::PhoneNumber{51}, "message3");
-//    SMSes.emplace_back(common::PhoneNumber{52}, "message4");
-}
+{}
 
 void UserPort::start(IUserEventsHandler& handler)
 {
@@ -97,6 +92,15 @@ void UserPort::mainMenuAcceptCallback(IUeGui::IListViewMode& menu)
 void UserPort::showComposeSmsView()
 {
     changeCurrentView(GUIView::COMPOSE_SMS);
+
+    IUeGui::ISmsComposeMode& composeSms = gui.setSmsComposeMode();
+    gui.setAcceptCallback([&](){handler->handleSendingSms(composeSms.getPhoneNumber(),composeSms.getSmsText());
+        composeSms.clearSmsText();
+        showConnected();
+    });
+    gui.setRejectCallback([&](){
+        showConnected();
+    });
 }
 
 void UserPort::showReceivedSmsListView()

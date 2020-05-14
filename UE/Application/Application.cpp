@@ -50,5 +50,8 @@ void Application::handleReceivingSms(common::PhoneNumber senderNumber, const std
 {
     context.state->handleReceivingSms(senderNumber, text);
 }
+void Application::handleSendingSms(common::PhoneNumber nr, std::string text) {
+        context.state->handleSendingSms(nr, text);
+    }
 
 }

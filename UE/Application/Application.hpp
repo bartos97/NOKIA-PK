@@ -30,7 +30,7 @@ public:
     void handleAttachAccept() override;
     void handleAttachReject() override;
     void handleDisconnected() override;
-
+    void handleSendingSms(common::PhoneNumber nr, std::string text) override;
 private:
     Context context;
     common::PrefixedLogger logger;
