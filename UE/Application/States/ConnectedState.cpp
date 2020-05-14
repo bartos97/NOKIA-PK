@@ -22,4 +22,11 @@ void ConnectedState::handleReceivingSms(int from, const std::string &text)
     //context.user.showNewSms();
 }
 
+void ConnectedState::handleSendingSms(common::PhoneNumber nr, std::string text)
+{
+    logger.logInfo("Send sms to ", nr);
+    context.bts.sendingSms(nr, text);
+
+}
+
 }
