@@ -50,7 +50,7 @@ void UserPort::showNewSms()
 
 void UserPort::addReceivedSms(const common::PhoneNumber senderNumber, const std::string& text)
 {
-    receivedSmsDb.emplace_back(senderNumber, text);
+    receivedSmsDb.emplace_back(senderNumber, phoneNumber, text);
 }
 
 void inline UserPort::setCurrentView(GUIView newView)
@@ -113,7 +113,9 @@ void UserPort::showComposeSmsView()
     auto& composeSms = gui.setSmsComposeMode();
 
     onAccept = [&]{
-        handler->handleSendingSms(composeSms.getPhoneNumber(), composeSms.getSmsText());
+        SMS newSms{phoneNumber, composeSms.getPhoneNumber(), composeSms.getSmsText(), true};
+        handler->handleSendingSms(newSms.receiverNumber, newSms.text);
+        sentSmsDb.push_back(newSms);
         composeSms.clearSmsText();
         showMainMenuView();
     };
@@ -126,13 +128,22 @@ void UserPort::showComposeSmsView()
 void UserPort::showReceivedSmsListView()
 {
     setCurrentView(GUIView::RECEIVED_SMS_LIST);
+    showSmsList(receivedSmsDb);
+}
 
-    constexpr unsigned int MAX_TOOLTIP_LENGTH = 30;
+void UserPort::showSentSmsListView()
+{
+    setCurrentView(GUIView::SENT_SMS_LIST);
+    showSmsList(sentSmsDb);
+}
+
+void UserPort::showSmsList(const std::vector<SMS>& db)
+{
     auto& currentListView = gui.setListViewMode();
     currentListView.clearSelectionList();
 
     std::string itemLabel, itemTooltip;
-    for (const auto& sms : receivedSmsDb) {
+    for (const auto& sms : db) {
         itemLabel = sms.isRead ? "" : "[NEW] ";
         itemLabel += "From: " + common::to_string(sms.senderNumber);
         itemTooltip = sms.text.length() > MAX_TOOLTIP_LENGTH ?
@@ -147,14 +158,6 @@ void UserPort::showReceivedSmsListView()
     onReject = [&]{
         goToPreviousView();
     };
-}
-
-void UserPort::showSentSmsListView()
-{
-    setCurrentView(GUIView::SENT_SMS_LIST);
-
-    auto& smsListView = gui.setListViewMode();
-    smsListView.clearSelectionList();
 }
 
 void UserPort::showSmsView(size_t smsIndex)

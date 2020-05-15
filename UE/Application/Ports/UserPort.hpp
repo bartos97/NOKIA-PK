@@ -29,11 +29,16 @@ public:
     struct SMS
     {
         const common::PhoneNumber senderNumber;
+        const common::PhoneNumber receiverNumber;
         const std::string text;
         bool isRead;
 
-        SMS(const common::PhoneNumber senderNumber, const std::string& text)
-                : senderNumber(senderNumber), text(text), isRead(false)
+        SMS(const common::PhoneNumber senderNumber, const common::PhoneNumber receiverNumber)
+            : senderNumber(senderNumber), receiverNumber(receiverNumber)
+        {}
+
+        SMS(const common::PhoneNumber senderNumber, const common::PhoneNumber receiverNumber, const std::string& text, bool isRead = false)
+            : senderNumber(senderNumber), receiverNumber(receiverNumber), text(text), isRead(isRead)
         {}
     };
 
@@ -41,7 +46,9 @@ public:
     UserPort(common::ILogger& logger, IUeGui& gui, common::PhoneNumber phoneNumber);
     void start(IUserEventsHandler& handler);
     void stop();
-    const std::vector<SMS>& getSMSes() { return receivedSmsDb; }
+
+    const std::vector<UserPort::SMS>& getReceivedSMSes()
+    { return receivedSmsDb; }
 
     void showNotConnected() override;
     void showConnecting() override;
@@ -57,15 +64,17 @@ private:
     void showComposeSmsView();
     void showReceivedSmsListView();
     void showSentSmsListView();
+    void showSmsList(const std::vector<SMS>& db);
     void showSmsView(size_t smsIndex);
 
 private:
     static const std::function<void()> EMPTY_CALLBACK;
+    static constexpr unsigned int MAX_TOOLTIP_LENGTH = 30;
 
     common::PrefixedLogger logger;
     IUeGui& gui;
     common::PhoneNumber phoneNumber;
-    IUserEventsHandler *handler = nullptr;
+    IUserEventsHandler* handler = nullptr;
 
     GUIView currentView;
     GUIView previousView;
@@ -73,6 +82,7 @@ private:
     std::function<void()> onReject;
 
     std::vector<SMS> receivedSmsDb;
+    std::vector<SMS> sentSmsDb;
 };
 
 }

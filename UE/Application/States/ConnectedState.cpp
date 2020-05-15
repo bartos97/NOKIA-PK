@@ -20,7 +20,6 @@ void ConnectedState::handleReceivingSms(common::PhoneNumber senderNumber, const 
 {
     logger.logInfo("Receive sms from: ", senderNumber);
     context.user.addReceivedSms(senderNumber, text);
-    context.user.showNewSms();
 }
 
 void ConnectedState::handleSendingSms(common::PhoneNumber nr, std::string text)

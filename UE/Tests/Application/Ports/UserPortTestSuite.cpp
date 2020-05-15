@@ -80,8 +80,8 @@ TEST_F(UserPortTestSuite, shallAddSmsToDB)
     const common::PhoneNumber senderNumber{123};
     const std::string text{"example text"};
     objectUnderTest.addReceivedSms(senderNumber, text);
-    ASSERT_NO_THROW(EXPECT_EQ(objectUnderTest.getSMSes().at(0).text, text));
-    ASSERT_NO_THROW(EXPECT_EQ(objectUnderTest.getSMSes().at(0).senderNumber, senderNumber));
+    ASSERT_NO_THROW(EXPECT_EQ(objectUnderTest.getReceivedSMSes().at(0).text, text));
+    ASSERT_NO_THROW(EXPECT_EQ(objectUnderTest.getReceivedSMSes().at(0).senderNumber, senderNumber));
 }
 
 }

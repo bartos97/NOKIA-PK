@@ -134,7 +134,6 @@ TEST_F(BtsPortTestSuite, shallReceivingSms)
     common::OutgoingMessage msg{common::MessageId::Sms,
                                 receivingPhoneNumber,
                                 PHONE_NUMBER};
-    msg.writeBtsId(BTS_ID);
     msg.writeText(TEXT);
 
     EXPECT_CALL(handlerMock, handleReceivingSms(receivingPhoneNumber, TEXT));
