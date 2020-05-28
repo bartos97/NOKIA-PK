@@ -89,6 +89,7 @@ TEST_F(ApplicationConnectedTestSuite, shallShowConnectedOnAttachAccept)
 TEST_F(ApplicationConnectedTestSuite, shallShowAndAddNewSmsOnReceiveSms)
 {
     EXPECT_CALL(userPortMock, addReceivedSms(common::PhoneNumber{123}, "example text"));
+    EXPECT_CALL(userPortMock, showNewSms());
     objectUnderTest.handleReceivingSms(common::PhoneNumber{123}, "example text");
 }
 
