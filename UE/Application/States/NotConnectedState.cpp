@@ -4,7 +4,7 @@
 namespace ue
 {
 
-NotConnectedState::NotConnectedState(Context &context)
+NotConnectedState::NotConnectedState(Context& context)
     : BaseState(context, "NotConnectedState")
 {
     context.user.showNotConnected();

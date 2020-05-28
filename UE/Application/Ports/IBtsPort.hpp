@@ -12,7 +12,7 @@ public:
     virtual ~IBtsEventsHandler() = default;
 
     virtual void handleSib(common::BtsId) = 0;
-    virtual void handleReceivingSms(int from, const std::string& text) = 0;
+    virtual void handleReceivingSms(common::PhoneNumber senderNumber, const std::string& text) = 0;
     virtual void handleAttachAccept() = 0;
     virtual void handleAttachReject() = 0;
     virtual void handleDisconnected() = 0;
