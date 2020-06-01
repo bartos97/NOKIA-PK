@@ -111,6 +111,7 @@ void UserPort::showComposeSmsView()
 {
     setCurrentView(GUIView::COMPOSE_SMS);
     auto& composeSms = gui.setSmsComposeMode();
+    composeSms.clearSmsText();
 
     onAccept = [&]{
         SMS newSms{phoneNumber, composeSms.getPhoneNumber(), composeSms.getSmsText(), true};
