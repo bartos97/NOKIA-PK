@@ -55,6 +55,7 @@ public:
     void showConnected() override;
     void showNewSms() override;
     void addReceivedSms(const common::PhoneNumber senderNumber, const std::string& text) override;
+    void showCallRequest(common::PhoneNumber callingPhoneNumber) override;
 
 private:
     void setCurrentView(GUIView newView);

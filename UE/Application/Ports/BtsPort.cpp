@@ -58,6 +58,14 @@ void BtsPort::handleMessage(BinaryMessage msg)
                 }
                 break;
             }
+        case common::MessageId::CallRequest: {
+            bool number_exist = to == phoneNumber;
+            if(number_exist)
+            {
+                handler->handleReceivingCall(from);
+            }
+            break;
+        }
             default:
                 logger.logError("unknown message: ", msgId, ", from: ", from);
         }
@@ -88,6 +96,20 @@ void BtsPort::sendingSms(common::PhoneNumber nr, std::string text)
     msg.writeText(text);
     transport.sendMessage(msg.getMessage());
     logger.logDebug("sent sms text: ", text);
+}
+
+void BtsPort::sendingCallAccept(common::PhoneNumber callingPhoneNumber)
+{
+     common::OutgoingMessage msg{common::MessageId::CallAccepted, phoneNumber, callingPhoneNumber};
+     transport.sendMessage(msg.getMessage());
+     logger.logDebug("sent accept call to: ", callingPhoneNumber);
+}
+
+void BtsPort::sendingCallDropped(common::PhoneNumber callingPhoneNumber)
+{
+     common::OutgoingMessage msg{common::MessageId::CallDropped, phoneNumber, callingPhoneNumber};
+     transport.sendMessage(msg.getMessage());
+     logger.logDebug("sent dropped call to: ", callingPhoneNumber);
 }
 
 }

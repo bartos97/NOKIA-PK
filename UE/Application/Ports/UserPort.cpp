@@ -175,4 +175,16 @@ void UserPort::showSmsView(size_t smsIndex)
     };
 }
 
+void UserPort::showCallRequest(common::PhoneNumber callingPhoneNumber)
+{
+    gui.setCallMode();
+    onAccept = [&]{
+        handler->handleSendingCallAccept(callingPhoneNumber);
+    };
+
+    onReject = [&]{
+        handler->handleSendingCallDropped(callingPhoneNumber);
+    };
+}
+
 }
