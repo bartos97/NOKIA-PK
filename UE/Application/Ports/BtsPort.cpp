@@ -58,6 +58,14 @@ void BtsPort::handleMessage(BinaryMessage msg)
                 }
                 break;
             }
+            case common::MessageId::CallRequest: {
+                bool number_exist = to == phoneNumber;
+                if(number_exist)
+                {
+                    handler->handleReceivingCall(from);
+                }
+                break;
+            }
             case common::MessageId::CallAccepted: {
                 handler->handleReceivingCallAccept(from);
                 break;
@@ -114,6 +122,13 @@ void BtsPort::sendCallDrop(common::PhoneNumber receiver)
     common::OutgoingMessage msg{common::MessageId::CallDropped, phoneNumber, receiver};
     transport.sendMessage(msg.getMessage());
     logger.logDebug("sent call drop to: ", receiver);
+}
+
+void BtsPort::sendingCallAccept(common::PhoneNumber callingPhoneNumber)
+{
+    common::OutgoingMessage msg{common::MessageId::CallAccepted, phoneNumber, callingPhoneNumber};
+    transport.sendMessage(msg.getMessage());
+    logger.logDebug("sent accept call to: ", callingPhoneNumber);
 }
 
 }

@@ -232,4 +232,16 @@ void UserPort::dropCurrentCall()
     showMainMenuView();
 }
 
+void UserPort::showCallRequest(common::PhoneNumber callingPhoneNumber)
+{
+    gui.setCallMode();
+    onAccept = [&]{
+        handler->handleSendingCallAccept(callingPhoneNumber);
+    };
+
+    onReject = [&]{
+        handler->handleSendingCallDropped(callingPhoneNumber);
+    };
+}
+
 }

@@ -30,6 +30,8 @@ public:
     void handleReceivingCallDropped(common::PhoneNumber converserNumber) override;
     void handleUnknownReceiver() override;
     void handleSendingCallDrop(common::PhoneNumber receiver) override;
+    void handleReceivingCall(common::PhoneNumber callingPhoneNumber) override;
+    void handleSendingCallAccept(common::PhoneNumber callingPhoneNumber) override;
 
 protected:
     Context& context;

@@ -5,8 +5,8 @@ namespace ue
 {
 
 BaseState::BaseState(Context& context, const std::string& name)
-        : context(context),
-          logger(context.logger, "[" + name + "]")
+    : context(context),
+      logger(context.logger, "[" + name + "]")
 {
     logger.logDebug("entry");
 }
@@ -43,7 +43,7 @@ void BaseState::handleDisconnected()
 
 void BaseState::handleReceivingSms(common::PhoneNumber senderNumber, const std::string& text)
 {
-    logger.logError("Unexpected: handleReceivingSms");
+    logger.logError("Unexpected: handleReceivingSms from ", senderNumber);
 }
 
 void BaseState::handleSendingSms(common::PhoneNumber nr, std::string text)
@@ -74,6 +74,16 @@ void BaseState::handleUnknownReceiver()
 void BaseState::handleSendingCallDrop(common::PhoneNumber receiver)
 {
     logger.logError("Unexpected: handleSendingCallDrop");
+}
+
+void BaseState::handleReceivingCall(const common::PhoneNumber callingPhoneNumber)
+{
+    logger.logError("Unexpected: handleReceivingCall from ", callingPhoneNumber);
+}
+
+void BaseState::handleSendingCallAccept(common::PhoneNumber callingPhoneNumber)
+{
+    logger.logError("Unexpected: handleSendingCallAccept to", callingPhoneNumber);
 }
 
 }

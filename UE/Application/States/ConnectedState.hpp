@@ -17,6 +17,7 @@ public:
     // IBtsEventsHandler interface
     void handleDisconnected() override;
     void handleReceivingSms(common::PhoneNumber senderNumber , const std::string& text) override;
+    void handleReceivingCall(common::PhoneNumber callingPhoneNumber);
 
     // IUserEventsHandler interface
     void handleSendingSms(common::PhoneNumber nr, std::string text) override;
@@ -25,6 +26,7 @@ public:
     void handleReceivingCallAccept(common::PhoneNumber converserNumber) override;
     void handleReceivingCallDropped(common::PhoneNumber converserNumber) override;
     void handleUnknownReceiver() override;
+    void handleSendingCallAccept(common::PhoneNumber callingPhoneNumber);
 };
 
 }

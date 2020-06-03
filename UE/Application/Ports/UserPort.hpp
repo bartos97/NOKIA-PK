@@ -60,8 +60,8 @@ public:
     void showCallingConnected(const common::PhoneNumber converserNumber) override;
     void showCallingDropped(common::PhoneNumber converserNumber) override;
     void showUnknownReceiver() override;
-
     void showCallingTimeout() override;
+    void showCallRequest(common::PhoneNumber callingPhoneNumber) override;
 
 private:
     void setCurrentView(GUIView newView);

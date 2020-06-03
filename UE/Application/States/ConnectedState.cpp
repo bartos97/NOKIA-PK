@@ -72,4 +72,31 @@ void ConnectedState::handleSendingCallDrop(common::PhoneNumber receiver)
     context.bts.sendCallDrop(receiver);
 }
 
+void ConnectedState::handleReceivingCall(common::PhoneNumber callingPhoneNumber)
+{
+    logger.logInfo("Receiviving call from: ", callingPhoneNumber);
+    using namespace std::chrono_literals;
+    context.timer.startTimer(30000ms);
+    context.user.showCallRequest(callingPhoneNumber);
+}
+
+void ConnectedState::handleSendingCallAccept(common::PhoneNumber callingPhoneNumber)
+{
+    logger.logInfo("Call accepted from: ", callingPhoneNumber);
+    context.timer.stopTimer();
+    context.bts.sendingCallAccept(callingPhoneNumber);
+    context.setState<TalkingState>();
+}
+
+void ConnectedState::handleSendingCallDropped(common::PhoneNumber callingPhoneNumber)
+{
+    logger.logInfo("Call dropped from: ", callingPhoneNumber);
+    context.timer.stopTimer();
+    context.bts.sendingCallDropped(callingPhoneNumber);
+    context.user.showConnected();
+}
+
+
+
+
 }
