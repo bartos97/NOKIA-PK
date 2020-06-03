@@ -30,7 +30,17 @@ public:
     void handleAttachAccept() override;
     void handleAttachReject() override;
     void handleDisconnected() override;
+
+    //IUserEventsHandler interface
     void handleSendingSms(common::PhoneNumber nr, std::string text) override;
+    void handleSendingCallRequest(common::PhoneNumber receiver) override;
+    void handleReceivingCallAccept(common::PhoneNumber converserNumber) override;
+    void handleReceivingCallDropped(common::PhoneNumber converserNumber) override;
+
+    void handleSendingCallDrop(common::PhoneNumber receiver) override;
+
+    void handleUnknownReceiver() override;
+
 private:
     Context context;
     common::PrefixedLogger logger;

@@ -15,7 +15,9 @@ enum class GUIView
     COMPOSE_SMS,
     RECEIVED_SMS_LIST,
     SENT_SMS_LIST,
-    SMS
+    SMS,
+    DIAL,
+    CALLING
 };
 
 enum class MainMenuItem
@@ -55,6 +57,11 @@ public:
     void showConnected() override;
     void showNewSms() override;
     void addReceivedSms(const common::PhoneNumber senderNumber, const std::string& text) override;
+    void showCallingConnected(const common::PhoneNumber converserNumber) override;
+    void showCallingDropped(common::PhoneNumber converserNumber) override;
+    void showUnknownReceiver() override;
+
+    void showCallingTimeout() override;
 
 private:
     void setCurrentView(GUIView newView);
@@ -66,6 +73,8 @@ private:
     void showSentSmsListView();
     void showSmsList(const std::vector<SMS>& db);
     void showSmsView(size_t smsIndex);
+    void showDialView();
+    void dropCurrentCall();
 
 private:
     static const std::function<void()> EMPTY_CALLBACK;
@@ -83,6 +92,7 @@ private:
 
     std::vector<SMS> receivedSmsDb;
     std::vector<SMS> sentSmsDb;
+    common::PhoneNumber currentReceiver;
 };
 
 }

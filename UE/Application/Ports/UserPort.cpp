@@ -1,8 +1,9 @@
 #include "UserPort.hpp"
 #include "UeGui/ITextMode.hpp"
+#include "UeGui/IDialMode.hpp"
+#include "UeGui/ICallMode.hpp"
 #include "UeGui/ISmsComposeMode.hpp"
 #include <vector>
-#include <iostream>
 #include <string>
 
 namespace ue
@@ -91,6 +92,7 @@ void UserPort::showMainMenuView()
     currentListView.addSelectionListItem("Compose SMS", "");
     currentListView.addSelectionListItem("View received SMSes", "");
     currentListView.addSelectionListItem("View sent SMSes", "");
+    currentListView.addSelectionListItem("Dial", "");
 
     onAccept = [&]{
         switch (currentListView.getCurrentItemIndex().second) {
@@ -102,6 +104,9 @@ void UserPort::showMainMenuView()
                 break;
             case 2:
                 showSentSmsListView();
+                break;
+            case 3:
+                showDialView();
                 break;
         }
     };
@@ -173,6 +178,58 @@ void UserPort::showSmsView(size_t smsIndex)
     onReject = [&]{
         goToPreviousView();
     };
+}
+
+void UserPort::showDialView()
+{
+    setCurrentView(GUIView::DIAL);
+    auto& dialView = gui.setDialMode();
+
+    onAccept = [&]{
+        currentReceiver = dialView.getPhoneNumber();
+        handler->handleSendingCallRequest(currentReceiver);
+    };
+
+    onReject = [&] {
+        dropCurrentCall();
+    };
+}
+
+void UserPort::showCallingConnected(const common::PhoneNumber converserNumber)
+{
+    setCurrentView(GUIView::CALLING);
+    auto& callingView = gui.setCallMode();
+    callingView.appendIncomingText("Talking with: " + to_string(converserNumber));
+}
+
+void UserPort::showCallingDropped(common::PhoneNumber converserNumber)
+{
+    setCurrentView(GUIView::CALLING);
+    auto& callingView = gui.setCallMode();
+    callingView.appendIncomingText("Phone " + to_string(converserNumber) + " dropped call.");
+    currentReceiver.value = common::PhoneNumber::INVALID_VALUE;
+    showMainMenuView();
+}
+
+void UserPort::showUnknownReceiver()
+{
+    setCurrentView(GUIView::CALLING);
+    auto& callingView = gui.setCallMode();
+    callingView.appendIncomingText("Receiver is not connected");
+    currentReceiver.value = common::PhoneNumber::INVALID_VALUE;
+    showMainMenuView();
+}
+
+void UserPort::showCallingTimeout()
+{
+    dropCurrentCall();
+}
+
+void UserPort::dropCurrentCall()
+{
+    handler->handleSendingCallDrop(currentReceiver);
+    currentReceiver.value = common::PhoneNumber::INVALID_VALUE;
+    showMainMenuView();
 }
 
 }

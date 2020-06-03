@@ -56,4 +56,29 @@ void Application::handleSendingSms(common::PhoneNumber nr, std::string text)
     context.state->handleSendingSms(nr, text);
 }
 
+void Application::handleSendingCallRequest(common::PhoneNumber receiver)
+{
+    context.state->handleSendingCallRequest(receiver);
+}
+
+void Application::handleReceivingCallAccept(common::PhoneNumber converserNumber)
+{
+    context.state->handleReceivingCallAccept(converserNumber);
+}
+
+void Application::handleReceivingCallDropped(common::PhoneNumber converserNumber)
+{
+    context.state->handleReceivingCallDropped(converserNumber);
+}
+
+void Application::handleUnknownReceiver()
+{
+    context.state->handleUnknownReceiver();
+}
+
+void Application::handleSendingCallDrop(common::PhoneNumber receiver)
+{
+    context.state->handleSendingCallDrop(receiver);
+}
+
 }
