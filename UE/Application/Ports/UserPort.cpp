@@ -140,16 +140,16 @@ void UserPort::showComposeSmsView()
 void UserPort::showReceivedSmsListView()
 {
     setCurrentView(GUIView::RECEIVED_SMS_LIST);
-    showSmsList(receivedSmsDb);
+    showSmsList(receivedSmsDb, GUIView::RECEIVED_SMS_LIST);
 }
 
 void UserPort::showSentSmsListView()
 {
     setCurrentView(GUIView::SENT_SMS_LIST);
-    showSmsList(sentSmsDb);
+    showSmsList(sentSmsDb, GUIView::SENT_SMS_LIST);
 }
 
-void UserPort::showSmsList(const std::vector<SMS>& db)
+void UserPort::showSmsList(const std::vector<SMS>& db, GUIView view)
 {
     auto& currentListView = gui.setListViewMode();
     currentListView.clearSelectionList();
@@ -158,14 +158,18 @@ void UserPort::showSmsList(const std::vector<SMS>& db)
     for (const auto& sms : db)
     {
         itemLabel = sms.isRead ? "" : "[NEW] ";
-        itemLabel += "From: " + common::to_string(sms.senderNumber);
+        itemLabel += view == GUIView::RECEIVED_SMS_LIST ? "From: " : "To: ";
+        itemLabel += common::to_string(sms.senderNumber);
         itemTooltip = sms.text.length() > MAX_TOOLTIP_LENGTH ?
                       sms.text.substr(0, MAX_TOOLTIP_LENGTH) + "..." : sms.text;
         currentListView.addSelectionListItem(itemLabel, itemTooltip);
     }
 
-    onAccept = [&] {
-        showSmsView(currentListView.getCurrentItemIndex().second);
+    onAccept = [&, view] {
+        if (view == GUIView::RECEIVED_SMS_LIST)
+            showSmsView(currentListView.getCurrentItemIndex().second, receivedSmsDb);
+        else if (view == GUIView::SENT_SMS_LIST)
+            showSmsView(currentListView.getCurrentItemIndex().second, sentSmsDb);
     };
 
     onReject = [&] {
@@ -173,13 +177,13 @@ void UserPort::showSmsList(const std::vector<SMS>& db)
     };
 }
 
-void UserPort::showSmsView(size_t smsIndex)
+void UserPort::showSmsView(size_t smsIndex, std::vector<SMS>& db)
 {
     setCurrentView(GUIView::SMS);
 
     try
     {
-        auto& sms = receivedSmsDb.at(smsIndex);
+        auto& sms = db.at(smsIndex);
         IUeGui::ITextMode& smsView = gui.setViewTextMode();
         sms.isRead = true;
         smsView.setText(sms.text);

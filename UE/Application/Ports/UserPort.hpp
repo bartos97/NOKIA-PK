@@ -71,8 +71,8 @@ private:
     void showComposeSmsView();
     void showReceivedSmsListView();
     void showSentSmsListView();
-    void showSmsList(const std::vector<SMS>& db);
-    void showSmsView(size_t smsIndex);
+    void showSmsList(const std::vector<SMS>& db, GUIView view);
+    void showSmsView(size_t smsIndex, std::vector<SMS>& db);
     void showDialView();
     void dropCurrentCall();
 
