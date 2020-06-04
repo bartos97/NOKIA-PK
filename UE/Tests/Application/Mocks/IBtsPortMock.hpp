@@ -20,7 +20,7 @@ public:
     MOCK_METHOD(void, handleReceivingCallRequest, (const common::PhoneNumber senderNumber), (final));
     MOCK_METHOD(void, handleReceivingCallDrop, (const common::PhoneNumber senderNumber), (final));
     MOCK_METHOD(void, handleReceivingCallAccept, (const common::PhoneNumber senderNumber), (final));
-    MOCK_METHOD(void, handleUnknownReceiver, (), (final));
+    MOCK_METHOD(void, handleUnknownReceiver, (common::PhoneNumber callingPhoneNumber), (final));
 };
 
 class IBtsPortMock : public IBtsPort

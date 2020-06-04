@@ -81,9 +81,9 @@ void Application::handleReceivingCallDrop(common::PhoneNumber callingPhoneNumber
     context.state->handleReceivingCallDrop(callingPhoneNumber);
 }
 
-void Application::handleUnknownReceiver()
+void Application::handleUnknownReceiver(common::PhoneNumber callingPhoneNumber)
 {
-    context.state->handleUnknownReceiver();
+    context.state->handleUnknownReceiver(callingPhoneNumber);
 }
 
 void Application::handleSendingCallDrop(common::PhoneNumber receiver)

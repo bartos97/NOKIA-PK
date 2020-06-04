@@ -28,7 +28,7 @@ public:
     virtual void showCallingConnected(const common::PhoneNumber callingPhoneNumber) = 0;
     virtual void showCallingDropped(const common::PhoneNumber callingPhoneNumber) = 0;
     virtual void showCallingTimeout() = 0;
-    virtual void showUnknownReceiver() = 0;
+    virtual void showUnknownReceiver(common::PhoneNumber callingPhoneNumber) = 0;
     virtual void addReceivedSms(const common::PhoneNumber senderNumber, const std::string& text) = 0;
     virtual void showCallRequest(common::PhoneNumber callingPhoneNumber) = 0;
 };

@@ -89,25 +89,30 @@ void BtsPort::handleMessage(BinaryMessage msg)
             {
                 auto unknownMsgId = reader.readMessageId();
                 auto unknownFrom = reader.readPhoneNumber();
+                auto unknownTo = reader.readPhoneNumber();
                 switch (unknownMsgId)
                 {
                     case common::MessageId::CallRequest:
                     {
-                        handler->handleUnknownReceiver();
+                        handler->handleUnknownReceiver(unknownTo);
                         break;
                     }
                     case common::MessageId::CallDropped:
                     {
                         logger.logDebug("Received MessageId::UnknownRecipient after MessageId::CallDropped");
+
                         break;
                     }
                     case common::MessageId::CallAccepted:
                     {
+
                         logger.logDebug("Received MessageId::UnknownRecipient after MessageId::CallAccepted");
+                        handler->handleUnknownReceiver(unknownTo);
                         break;
                     }
                     case common::MessageId::CallTalk:
                     {
+
                         logger.logDebug("Received MessageId::UnknownRecipient after MessageId::CallTalk");
                         break;
                     }
@@ -170,5 +175,12 @@ void BtsPort::sendCallAccept(common::PhoneNumber callingPhoneNumber)
     transport.sendMessage(msg.getMessage());
     logger.logDebug("sent accept call to: ", callingPhoneNumber);
 }
+
+//void BtsPort::sendUnknownRecipient(common::PhoneNumber callingPhoneNumber)
+//{
+//    common::OutgoingMessage msg{common::MessageId::UnknownRecipient, phoneNumber, callingPhoneNumber};
+//    transport.sendMessage(msg.getMessage());
+//    logger.logDebug("sent unknown recipient to: ", callingPhoneNumber);
+//}
 
 }

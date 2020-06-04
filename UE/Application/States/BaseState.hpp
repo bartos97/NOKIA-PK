@@ -28,7 +28,7 @@ public:
     void handleSendingCallRequest(common::PhoneNumber receiver) override;
     void handleReceivingCallAccept(common::PhoneNumber callingPhoneNumber) override;
     void handleReceivingCallDrop(common::PhoneNumber callingPhoneNumber) override;
-    void handleUnknownReceiver() override;
+    void handleUnknownReceiver(common::PhoneNumber callingPhoneNumber) override;
     void handleSendingCallDrop(common::PhoneNumber receiver) override;
     void handleReceivingCallRequest(common::PhoneNumber callingPhoneNumber) override;
     void handleSendingCallAccept(common::PhoneNumber callingPhoneNumber) override;
