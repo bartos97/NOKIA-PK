@@ -32,4 +32,18 @@ void TalkingState::handleUnknownReceiver(common::PhoneNumber callingPhoneNumber)
     context.user.showUnknownReceiver(callingPhoneNumber);
 }
 
+void TalkingState::handleSendingCallDrop(common::PhoneNumber receiver)
+{
+    logger.logInfo("Sending call drop to: ", receiver);
+    context.timer.stopTimer();
+    context.bts.sendCallDrop(receiver);
+    context.user.showConnected();
+}
+
+void TalkingState::handleReceivingCallDrop(common::PhoneNumber callingPhoneNumber)
+{
+    logger.logInfo("Received call drop");
+    context.timer.stopTimer();
+    context.user.showCallingDropped(callingPhoneNumber);
+}
 }

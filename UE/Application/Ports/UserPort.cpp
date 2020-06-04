@@ -85,8 +85,7 @@ void UserPort::goToPreviousView()
         case GUIView::NOT_CONNECTED:
         case GUIView::CONNECTING:
         case GUIView::CALLING:
-        default:
-            showMainMenuView();
+        default:showMainMenuView();
     }
 }
 
@@ -222,8 +221,6 @@ void UserPort::showCallingConnected(const common::PhoneNumber callingPhoneNumber
     setCurrentView(GUIView::CALLING);
     auto& callingView = gui.setCallMode();
     callingView.appendIncomingText("Talking with: " + to_string(callingPhoneNumber));
-
-    //TODO: onAccept, onReject
 }
 
 void UserPort::showCallingDropped(const PhoneNumber callingPhoneNumber)
@@ -242,8 +239,9 @@ void UserPort::showUnknownReceiver(common::PhoneNumber callingPhoneNumber)
     callingView.appendIncomingText("Receiver is not connected");
     currentReceiver.value = common::PhoneNumber::INVALID_VALUE;
     gui.showPeerUserNotAvailable(callingPhoneNumber);
+
     onReject = [&] {
-    showMainMenuView();
+        showMainMenuView();
     };
 }
 
@@ -276,15 +274,20 @@ void UserPort::showCallRequest(common::PhoneNumber callingPhoneNumber)
         handler->handleSendingCallDrop(callingPhoneNumber);
     };
 }
+
 void UserPort::showCallView(const std::string incomingText)
 {
-IUeGui::ICallMode& callView = gui.setCallMode();
+    IUeGui::ICallMode& callView = gui.setCallMode();
     callView.appendIncomingText(incomingText);
-    gui.setAcceptCallback([&](){
-    handler->handleSendTalkMessage(callView.getOutgoingText());
-    callView.clearOutgoingText();
-    });
-    gui.setRejectCallback(nullptr);
-    }
+
+    onAccept = [&] {
+        handler->handleSendTalkMessage(callView.getOutgoingText());
+        callView.clearOutgoingText();
+    };
+
+    onReject = [&] {
+        dropCurrentCall();
+    };
+}
 
 }

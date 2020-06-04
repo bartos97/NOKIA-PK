@@ -13,6 +13,8 @@ public:
     void handleSendTalkMessage(std::string) final;
     void handleTalkMessage(std::string) final;
     void handleUnknownReceiver(common::PhoneNumber callingPhoneNumber) override;
+    void handleSendingCallDrop(common::PhoneNumber receiver) override;
+    void handleReceivingCallDrop(common::PhoneNumber callingPhoneNumber) override;
 
 private:
     common::PhoneNumber phone;
