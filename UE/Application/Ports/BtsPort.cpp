@@ -69,7 +69,7 @@ void BtsPort::handleMessage(BinaryMessage msg)
             case common::MessageId::CallRequest:
             {
                 bool number_exist = to == phoneNumber;
-                if (number_exist)
+                if (number_exist && to != from)
                 {
                     handler->handleReceivingCallRequest(from);
                 }
