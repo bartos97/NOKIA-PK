@@ -69,7 +69,12 @@ void BtsPort::handleMessage(BinaryMessage msg)
             case common::MessageId::CallRequest:
             {
                 bool number_exist = to == phoneNumber;
-                if (number_exist && to != from)
+
+                if(to == from)
+                {
+                    handler->handleUnknownReceiver(to);
+                }
+                else if (number_exist)
                 {
                     handler->handleReceivingCallRequest(from);
                 }
@@ -100,7 +105,6 @@ void BtsPort::handleMessage(BinaryMessage msg)
                     case common::MessageId::CallDropped:
                     {
                         logger.logDebug("Received MessageId::UnknownRecipient after MessageId::CallDropped");
-
                         break;
                     }
                     case common::MessageId::CallAccepted:
