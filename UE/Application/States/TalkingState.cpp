@@ -9,4 +9,12 @@ TalkingState::TalkingState(ue::Context& context)
 
 }
 
+void TalkingState::handleUnknownReceiver(common::PhoneNumber callingPhoneNumber)
+{
+    logger.logInfo("Unknown receiver after call accepted");
+    context.timer.stopTimer();
+    context.user.showUnknownReceiver(callingPhoneNumber);
+}
+
+
 }

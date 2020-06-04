@@ -52,11 +52,11 @@ void ConnectedState::handleReceivingCallDrop(common::PhoneNumber callingPhoneNum
     context.user.showCallingDropped(callingPhoneNumber);
 }
 
-void ConnectedState::handleUnknownReceiver()
+void ConnectedState::handleUnknownReceiver(common::PhoneNumber callingPhoneNumber)
 {
     logger.logInfo("Unknown receiver");
     context.timer.stopTimer();
-    context.user.showUnknownReceiver();
+    context.user.showUnknownReceiver(callingPhoneNumber);
 }
 
 void ConnectedState::handleTimeout()
