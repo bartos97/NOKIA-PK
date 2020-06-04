@@ -21,6 +21,7 @@ public:
     void sendCallRequest(common::PhoneNumber receiver) override;
     void sendCallDrop(common::PhoneNumber receiver) override;
     void sendCallAccept(common::PhoneNumber callingPhoneNumber) override;
+    void sendTalkMessage(const std::string, const common::PhoneNumber) override;
 
 
 private:

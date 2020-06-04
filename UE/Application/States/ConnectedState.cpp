@@ -42,7 +42,7 @@ void ConnectedState::handleReceivingCallAccept(common::PhoneNumber callingPhoneN
     logger.logInfo("Received call accept");
     context.timer.stopTimer();
     context.user.showCallingConnected(callingPhoneNumber);
-    context.setState<TalkingState>();
+    context.setState<TalkingState>(callingPhoneNumber);
 }
 
 void ConnectedState::handleReceivingCallDrop(common::PhoneNumber callingPhoneNumber)
@@ -87,7 +87,7 @@ void ConnectedState::handleSendingCallAccept(common::PhoneNumber callingPhoneNum
     context.timer.stopTimer();
     context.bts.sendCallAccept(callingPhoneNumber);
     context.user.showCallingConnected(callingPhoneNumber);
-    context.setState<TalkingState>();
+    context.setState<TalkingState>(callingPhoneNumber);
 }
 
 }

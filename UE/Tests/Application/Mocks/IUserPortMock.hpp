@@ -16,7 +16,7 @@ public:
     MOCK_METHOD(void, handleSendingCallRequest, (common::PhoneNumber receiver), (final));
     MOCK_METHOD(void, handleSendingCallAccept, (common::PhoneNumber callingPhoneNumber ), (final));
     MOCK_METHOD(void, handleSendingCallDrop, (common::PhoneNumber callingPhoneNumber ), (final));
-
+    MOCK_METHOD(void, handleSendTalkMessage, (std::string string), (final));
 };
 
 class IUserPortMock : public IUserPort
@@ -35,6 +35,7 @@ public:
     MOCK_METHOD(void, showCallingDropped, (common::PhoneNumber callingPhoneNumber), (final));
     MOCK_METHOD(void, showCallingTimeout, (), (final));
     MOCK_METHOD(void, showUnknownReceiver, (common::PhoneNumber callingPhoneNumber), (final));
+    MOCK_METHOD(void, showCallView, (std::string string), (final));
 };
 
 }
