@@ -1,13 +1,10 @@
-# NOKIA-PK
+# NOKIA-PK - Grupa 6
 
-## Nie pushujemy/zmieniamy mastera w tym repozytorium
+## Członkowie:
+- Bartłomiej Zając
+- Jakub Ryś
+- Grzegorz Franczak
+## Linki
+[Trello invite](https://trello.com/invite/b/q7Utds6P/ff02152ee201accaff37f8410b1b0849/pk-nokia-grupa-6)
 
-## Pytania techniczne
-Używamy **/issues**
-
-## Rejestrowanie pracy
-Po ustaleniu przypisań do grup w **/issues** robimy ticket z informacjami:  
-- nazwa grupy,  
-- osoby w grupie,  
-- link do boarda,  
-- link do forka gdzie jest praca waszej grupy.
+[Github repo](https://github.com/bartos97/NOKIA-PK)
