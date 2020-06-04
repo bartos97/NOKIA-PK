@@ -91,4 +91,14 @@ void Application::handleSendingCallDrop(common::PhoneNumber receiver)
     context.state->handleSendingCallDrop(receiver);
 }
 
+void Application::handleSendTalkMessage(const std::string text)
+{
+context.state->handleSendTalkMessage(text);
+}
+
+void Application::handleTalkMessage(const std::string message)
+{
+context.state->handleTalkMessage(message);
+}
+
 }

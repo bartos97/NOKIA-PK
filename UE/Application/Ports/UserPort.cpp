@@ -264,5 +264,15 @@ void UserPort::showCallRequest(common::PhoneNumber callingPhoneNumber)
         handler->handleSendingCallDrop(callingPhoneNumber);
     };
 }
+void UserPort::showCallView(const std::string incomingText)
+{
+IUeGui::ICallMode& callView = gui.setCallMode();
+    callView.appendIncomingText(incomingText);
+    gui.setAcceptCallback([&](){
+    handler->handleSendTalkMessage(callView.getOutgoingText());
+    callView.clearOutgoingText();
+    });
+    gui.setRejectCallback(nullptr);
+    }
 
 }

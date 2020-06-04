@@ -93,4 +93,5 @@ TEST_F(ApplicationConnectedTestSuite, shallShowAndAddNewSmsOnReceiveSms)
     objectUnderTest.handleReceivingSms(common::PhoneNumber{123}, "example text");
 }
 
+
 }

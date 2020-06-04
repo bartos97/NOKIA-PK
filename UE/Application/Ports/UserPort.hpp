@@ -61,6 +61,7 @@ public:
     void showUnknownReceiver() override;
     void showCallingTimeout() override;
     void showCallRequest(common::PhoneNumber callingPhoneNumber) override;
+    void showCallView(const std::string text) override;
 
 private:
     void setCurrentView(GUIView newView);
