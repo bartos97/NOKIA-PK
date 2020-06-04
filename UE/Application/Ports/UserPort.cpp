@@ -241,7 +241,10 @@ void UserPort::showUnknownReceiver()
 
 void UserPort::showCallingTimeout()
 {
-    dropCurrentCall();
+    if (currentReceiver.value != common::PhoneNumber::INVALID_VALUE)
+    {
+        dropCurrentCall();
+    }
 }
 
 void UserPort::dropCurrentCall()
@@ -255,6 +258,7 @@ void UserPort::showCallRequest(common::PhoneNumber callingPhoneNumber)
     setCurrentView(GUIView::CALLING);
     auto& callingView = gui.setCallMode();
     callingView.appendIncomingText("Incoming call from: " + to_string(callingPhoneNumber));
+    currentReceiver = callingPhoneNumber;
 
     onAccept = [&, callingPhoneNumber] {
         handler->handleSendingCallAccept(callingPhoneNumber);
