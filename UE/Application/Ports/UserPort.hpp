@@ -58,7 +58,7 @@ public:
     void addReceivedSms(common::PhoneNumber senderNumber, const std::string& text) override;
     void showCallingConnected(common::PhoneNumber callingPhoneNumber) override;
     void showCallingDropped(common::PhoneNumber callingPhoneNumber) override;
-    void showUnknownReceiver() override;
+    void showUnknownReceiver(common::PhoneNumber callingPhoneNumber) override;
     void showCallingTimeout() override;
     void showCallRequest(common::PhoneNumber callingPhoneNumber) override;
     void showCallView(const std::string text) override;

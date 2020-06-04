@@ -9,11 +9,13 @@ namespace ue
 class TalkingState : public BaseState
 {
 public:
-TalkingState(Context& context, const common::PhoneNumber from);
-void handleSendTalkMessage(const std::string) final;
-void handleTalkMessage(const std::string) final;
+    TalkingState(Context& context, common::PhoneNumber from);
+    void handleSendTalkMessage(std::string) final;
+    void handleTalkMessage(std::string) final;
+    void handleUnknownReceiver(common::PhoneNumber callingPhoneNumber) override;
+
 private:
-common::PhoneNumber phone;
+    common::PhoneNumber phone;
 };
 
 }

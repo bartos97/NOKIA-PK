@@ -23,6 +23,7 @@ public:
     void sendCallAccept(common::PhoneNumber callingPhoneNumber) override;
     void sendTalkMessage(const std::string, const common::PhoneNumber) override;
 
+
 private:
     void handleMessage(BinaryMessage msg);
     void handleDisconnected();

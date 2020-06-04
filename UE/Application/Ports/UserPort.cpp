@@ -26,6 +26,7 @@ void UserPort::start(IUserEventsHandler& handler)
 
 void UserPort::stop()
 {
+
     handler = nullptr;
 }
 
@@ -230,18 +231,24 @@ void UserPort::showCallingDropped(const PhoneNumber callingPhoneNumber)
     showMainMenuView();
 }
 
-void UserPort::showUnknownReceiver()
+void UserPort::showUnknownReceiver(common::PhoneNumber callingPhoneNumber)
 {
     setCurrentView(GUIView::CALLING);
     auto& callingView = gui.setCallMode();
     callingView.appendIncomingText("Receiver is not connected");
     currentReceiver.value = common::PhoneNumber::INVALID_VALUE;
+    gui.showPeerUserNotAvailable(callingPhoneNumber);
+    onReject = [&] {
     showMainMenuView();
+    };
 }
 
 void UserPort::showCallingTimeout()
 {
-    dropCurrentCall();
+    if (currentReceiver.value != common::PhoneNumber::INVALID_VALUE)
+    {
+        dropCurrentCall();
+    }
 }
 
 void UserPort::dropCurrentCall()
@@ -255,6 +262,7 @@ void UserPort::showCallRequest(common::PhoneNumber callingPhoneNumber)
     setCurrentView(GUIView::CALLING);
     auto& callingView = gui.setCallMode();
     callingView.appendIncomingText("Incoming call from: " + to_string(callingPhoneNumber));
+    currentReceiver = callingPhoneNumber;
 
     onAccept = [&, callingPhoneNumber] {
         handler->handleSendingCallAccept(callingPhoneNumber);
