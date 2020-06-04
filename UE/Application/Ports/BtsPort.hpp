@@ -22,6 +22,7 @@ public:
     void sendCallDrop(common::PhoneNumber receiver) override;
     void sendCallAccept(common::PhoneNumber callingPhoneNumber) override;
 
+
 private:
     void handleMessage(BinaryMessage msg);
     void handleDisconnected();

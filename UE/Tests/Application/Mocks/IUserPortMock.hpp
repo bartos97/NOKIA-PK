@@ -34,7 +34,7 @@ public:
     MOCK_METHOD(void, showCallingConnected, (common::PhoneNumber callingPhoneNumber), (final));
     MOCK_METHOD(void, showCallingDropped, (common::PhoneNumber callingPhoneNumber), (final));
     MOCK_METHOD(void, showCallingTimeout, (), (final));
-    MOCK_METHOD(void, showUnknownReceiver, (), (final));
+    MOCK_METHOD(void, showUnknownReceiver, (common::PhoneNumber callingPhoneNumber), (final));
 };
 
 }
