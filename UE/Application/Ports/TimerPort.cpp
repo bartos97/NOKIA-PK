@@ -27,6 +27,7 @@ void TimerPort::startTimer(Duration duration)
 void TimerPort::stopTimer()
 {
     logger.logDebug("Stop timer");
+    //TODO: check if started
 }
 
 }

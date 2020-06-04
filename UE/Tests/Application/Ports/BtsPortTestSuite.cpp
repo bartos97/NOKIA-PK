@@ -109,7 +109,7 @@ TEST_F(BtsPortTestSuite, shallHandleDiscconnected)
     disconnectedCallback();
 }
 
-TEST_F(BtsPortTestSuite, shallReceivingCorrectSmsFromUe)
+TEST_F(BtsPortTestSuite, shallReceiveCorrectSmsFromUe)
 {
     common::PhoneNumber receivingPhoneNumber{113};
     common::OutgoingMessage o_msg{common::MessageId::Sms,
@@ -128,7 +128,7 @@ TEST_F(BtsPortTestSuite, shallReceivingCorrectSmsFromUe)
     ASSERT_NO_THROW(reader.checkEndOfMessage());
 }
 
-TEST_F(BtsPortTestSuite, shallReceivingSms)
+TEST_F(BtsPortTestSuite, shallReceiveSms)
 {
     common::PhoneNumber receivingPhoneNumber{113};
     common::OutgoingMessage msg{common::MessageId::Sms,
@@ -138,6 +138,21 @@ TEST_F(BtsPortTestSuite, shallReceivingSms)
 
     EXPECT_CALL(handlerMock, handleReceivingSms(receivingPhoneNumber, TEXT));
     messageCallback(msg.getMessage());
+}
+
+TEST_F(BtsPortTestSuite, shallSendCallRequest)
+{
+    common::BinaryMessage msg;
+    EXPECT_CALL(transportMock, sendMessage(_)).WillOnce([&msg](auto param) {
+        msg = std::move(param);
+        return true;
+    });
+    objectUnderTest.sendCallRequest(common::PhoneNumber{});
+    common::IncomingMessage reader(msg);
+    ASSERT_NO_THROW(EXPECT_EQ(common::MessageId::CallRequest, reader.readMessageId()));
+    ASSERT_NO_THROW(EXPECT_EQ(PHONE_NUMBER, reader.readPhoneNumber()));
+    ASSERT_NO_THROW(EXPECT_EQ(common::PhoneNumber{}, reader.readPhoneNumber()));
+    ASSERT_NO_THROW(reader.checkEndOfMessage());
 }
 
 }

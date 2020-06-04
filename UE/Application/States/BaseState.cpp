@@ -5,8 +5,8 @@ namespace ue
 {
 
 BaseState::BaseState(Context& context, const std::string& name)
-    : context(context),
-      logger(context.logger, "[" + name + "]")
+        : context(context),
+          logger(context.logger, "[" + name + "]")
 {
     logger.logDebug("entry");
 }
@@ -41,7 +41,7 @@ void BaseState::handleDisconnected()
     logger.logError("Unexpected: handleDisconnected");
 }
 
-void BaseState::handleReceivingSms(const common::PhoneNumber senderNumber, const std::string& text)
+void BaseState::handleReceivingSms(common::PhoneNumber senderNumber, const std::string& text)
 {
     logger.logError("Unexpected: handleReceivingSms from ", senderNumber);
 }
@@ -51,19 +51,39 @@ void BaseState::handleSendingSms(common::PhoneNumber nr, std::string text)
     logger.logError("Unexpected: handleSendingSms");
 }
 
-void BaseState::handleReceivingCall(const common::PhoneNumber callingPhoneNumber)
+void BaseState::handleSendingCallRequest(common::PhoneNumber receiver)
 {
-    logger.logError("Unexpected: handleReceivingCall from ", callingPhoneNumber);
+    logger.logError("Unexpected: handleSendingCallRequest");
+}
+
+void BaseState::handleReceivingCallAccept(common::PhoneNumber callingPhoneNumber)
+{
+    logger.logError("Unexpected: handleReceivingCallAccept");
+}
+
+void BaseState::handleReceivingCallDrop(common::PhoneNumber callingPhoneNumber)
+{
+    logger.logError("Unexpected: handleReceivingCallDrop");
+}
+
+void BaseState::handleUnknownReceiver()
+{
+    logger.logError("Unexpected: handleUnknownReceiver");
+}
+
+void BaseState::handleSendingCallDrop(common::PhoneNumber receiver)
+{
+    logger.logError("Unexpected: handleSendingCallDrop");
+}
+
+void BaseState::handleReceivingCallRequest(common::PhoneNumber callingPhoneNumber)
+{
+    logger.logError("Unexpected: handleReceivingCallRequest from ", callingPhoneNumber);
 }
 
 void BaseState::handleSendingCallAccept(common::PhoneNumber callingPhoneNumber)
 {
     logger.logError("Unexpected: handleSendingCallAccept to", callingPhoneNumber);
-}
-
-void BaseState::handleSendingCallDropped(common::PhoneNumber callingPhoneNumber)
-{
-    logger.logError("Unexpected: handleSendingCallDropped to", callingPhoneNumber);
 }
 
 }

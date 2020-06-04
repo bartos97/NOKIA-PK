@@ -17,15 +17,21 @@ public:
     void handleTimeout() override;
 
     // IBtsEventsHandler interface
+    void handleReceivingSms(common::PhoneNumber senderNumber, const std::string& text) override;
     void handleSib(common::BtsId btsId) override;
     void handleAttachAccept() override;
     void handleAttachReject() override;
     void handleDisconnected() override;
+
+    // IUserEventsHandler interface
     void handleSendingSms(common::PhoneNumber nr, std::string text) override;
-    void handleReceivingSms(common::PhoneNumber senderNumber, const std::string& text) override;
-    void handleReceivingCall(common::PhoneNumber callingPhoneNumber) override;
+    void handleSendingCallRequest(common::PhoneNumber receiver) override;
+    void handleReceivingCallAccept(common::PhoneNumber callingPhoneNumber) override;
+    void handleReceivingCallDrop(common::PhoneNumber callingPhoneNumber) override;
+    void handleUnknownReceiver() override;
+    void handleSendingCallDrop(common::PhoneNumber receiver) override;
+    void handleReceivingCallRequest(common::PhoneNumber callingPhoneNumber) override;
     void handleSendingCallAccept(common::PhoneNumber callingPhoneNumber) override;
-    void handleSendingCallDropped(common::PhoneNumber callingPhoneNumber) override;
 
 protected:
     Context& context;
