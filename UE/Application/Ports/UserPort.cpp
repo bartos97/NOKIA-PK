@@ -8,20 +8,20 @@
 
 namespace ue
 {
-const std::function<void()> UserPort::EMPTY_CALLBACK = []{};
+const std::function<void()> UserPort::EMPTY_CALLBACK = [] {};
 
 UserPort::UserPort(common::ILogger& logger, IUeGui& gui, common::PhoneNumber phoneNumber)
-    : logger(logger, "[USER-PORT]"),
-      gui(gui),
-      phoneNumber(phoneNumber)
+        : logger(logger, "[USER-PORT]"),
+          gui(gui),
+          phoneNumber(phoneNumber)
 {}
 
 void UserPort::start(IUserEventsHandler& handler)
 {
     this->handler = &handler;
     gui.setTitle("Nokia " + to_string(phoneNumber));
-    gui.setAcceptCallback([this]{ onAccept(); });
-    gui.setRejectCallback([this]{ onReject(); });
+    gui.setAcceptCallback([this] { onAccept(); });
+    gui.setRejectCallback([this] { onReject(); });
 }
 
 void UserPort::stop()
@@ -31,11 +31,13 @@ void UserPort::stop()
 
 void UserPort::showNotConnected()
 {
+    setCurrentView(GUIView::NOT_CONNECTED);
     gui.showNotConnected();
 }
 
 void UserPort::showConnecting()
 {
+    setCurrentView(GUIView::CONNECTING);
     gui.showConnecting();
 }
 
@@ -64,22 +66,26 @@ void inline UserPort::setCurrentView(GUIView newView)
 
 void UserPort::goToPreviousView()
 {
-    switch (previousView) {
-        case GUIView::MAIN_MENU:
+    switch (previousView)
+    {
+        case GUIView::MAIN_MENU:showMainMenuView();
+            return;
+        case GUIView::SENT_SMS_LIST:showSentSmsListView();
+            return;
+        case GUIView::RECEIVED_SMS_LIST:showReceivedSmsListView();
+            return;
+        case GUIView::COMPOSE_SMS:showComposeSmsView();
+            return;
+        case GUIView::SMS:showMainMenuView();
+            return;
+        case GUIView::DIAL:showDialView();
+            return;
+        case GUIView::INVALID:
+        case GUIView::NOT_CONNECTED:
+        case GUIView::CONNECTING:
+        case GUIView::CALLING:
+        default:
             showMainMenuView();
-            return;
-        case GUIView::SENT_SMS_LIST:
-            showSentSmsListView();
-            return;
-        case GUIView::RECEIVED_SMS_LIST:
-            showReceivedSmsListView();
-            return;
-        case GUIView::COMPOSE_SMS:
-            showComposeSmsView();
-            return;
-        case GUIView::SMS:
-            showMainMenuView();
-            return;
     }
 }
 
@@ -89,24 +95,23 @@ void UserPort::showMainMenuView()
 
     auto& currentListView = gui.setListViewMode();
     currentListView.clearSelectionList();
+    currentListView.addSelectionListItem("Dial", "");
     currentListView.addSelectionListItem("Compose SMS", "");
     currentListView.addSelectionListItem("View received SMSes", "");
     currentListView.addSelectionListItem("View sent SMSes", "");
-    currentListView.addSelectionListItem("Dial", "");
 
-    onAccept = [&]{
-        switch (currentListView.getCurrentItemIndex().second) {
-            case 0:
-                showComposeSmsView();
+    onAccept = [&] {
+        switch (currentListView.getCurrentItemIndex().second)
+        {
+            case 0:showDialView();
                 break;
-            case 1:
-                showReceivedSmsListView();
+            case 1:showComposeSmsView();
                 break;
-            case 2:
-                showSentSmsListView();
+            case 2:showReceivedSmsListView();
                 break;
-            case 3:
-                showDialView();
+            case 3:showSentSmsListView();
+                break;
+            default:showDialView();
                 break;
         }
     };
@@ -118,7 +123,7 @@ void UserPort::showComposeSmsView()
     auto& composeSms = gui.setSmsComposeMode();
     composeSms.clearSmsText();
 
-    onAccept = [&]{
+    onAccept = [&] {
         SMS newSms{phoneNumber, composeSms.getPhoneNumber(), composeSms.getSmsText(), true};
         handler->handleSendingSms(newSms.receiverNumber, newSms.text);
         sentSmsDb.push_back(newSms);
@@ -126,7 +131,7 @@ void UserPort::showComposeSmsView()
         showMainMenuView();
     };
 
-    onReject = [&]{
+    onReject = [&] {
         showMainMenuView();
     };
 }
@@ -149,7 +154,8 @@ void UserPort::showSmsList(const std::vector<SMS>& db)
     currentListView.clearSelectionList();
 
     std::string itemLabel, itemTooltip;
-    for (const auto& sms : db) {
+    for (const auto& sms : db)
+    {
         itemLabel = sms.isRead ? "" : "[NEW] ";
         itemLabel += "From: " + common::to_string(sms.senderNumber);
         itemTooltip = sms.text.length() > MAX_TOOLTIP_LENGTH ?
@@ -157,11 +163,11 @@ void UserPort::showSmsList(const std::vector<SMS>& db)
         currentListView.addSelectionListItem(itemLabel, itemTooltip);
     }
 
-    onAccept = [&]{
+    onAccept = [&] {
         showSmsView(currentListView.getCurrentItemIndex().second);
     };
 
-    onReject = [&]{
+    onReject = [&] {
         goToPreviousView();
     };
 }
@@ -170,12 +176,20 @@ void UserPort::showSmsView(size_t smsIndex)
 {
     setCurrentView(GUIView::SMS);
 
-    auto& sms = receivedSmsDb.at(smsIndex);
-    IUeGui::ITextMode& smsView = gui.setViewTextMode();
-    sms.isRead = true;
-    smsView.setText(sms.text);
+    try
+    {
+        auto& sms = receivedSmsDb.at(smsIndex);
+        IUeGui::ITextMode& smsView = gui.setViewTextMode();
+        sms.isRead = true;
+        smsView.setText(sms.text);
+    }
+    catch (const std::out_of_range& e)
+    {
+        logger.logDebug(e.what());
+        goToPreviousView();
+    }
 
-    onReject = [&]{
+    onReject = [&] {
         goToPreviousView();
     };
 }
@@ -183,30 +197,35 @@ void UserPort::showSmsView(size_t smsIndex)
 void UserPort::showDialView()
 {
     setCurrentView(GUIView::DIAL);
+    bool isDialing = false;
     auto& dialView = gui.setDialMode();
 
-    onAccept = [&]{
+    onAccept = [&] {
         currentReceiver = dialView.getPhoneNumber();
         handler->handleSendingCallRequest(currentReceiver);
+        isDialing = true;
     };
 
     onReject = [&] {
-        dropCurrentCall();
+        if (isDialing)
+            dropCurrentCall();
     };
 }
 
-void UserPort::showCallingConnected(const common::PhoneNumber converserNumber)
+void UserPort::showCallingConnected(const common::PhoneNumber callingPhoneNumber)
 {
     setCurrentView(GUIView::CALLING);
     auto& callingView = gui.setCallMode();
-    callingView.appendIncomingText("Talking with: " + to_string(converserNumber));
+    callingView.appendIncomingText("Talking with: " + to_string(callingPhoneNumber));
+
+    //TODO: onAccept, onReject
 }
 
-void UserPort::showCallingDropped(common::PhoneNumber converserNumber)
+void UserPort::showCallingDropped(const PhoneNumber callingPhoneNumber)
 {
     setCurrentView(GUIView::CALLING);
     auto& callingView = gui.setCallMode();
-    callingView.appendIncomingText("Phone " + to_string(converserNumber) + " dropped call.");
+    callingView.appendIncomingText("Phone " + to_string(callingPhoneNumber) + " dropped call.");
     currentReceiver.value = common::PhoneNumber::INVALID_VALUE;
     showMainMenuView();
 }
@@ -229,18 +248,20 @@ void UserPort::dropCurrentCall()
 {
     handler->handleSendingCallDrop(currentReceiver);
     currentReceiver.value = common::PhoneNumber::INVALID_VALUE;
-    showMainMenuView();
 }
 
 void UserPort::showCallRequest(common::PhoneNumber callingPhoneNumber)
 {
-    gui.setCallMode();
-    onAccept = [&]{
+    setCurrentView(GUIView::CALLING);
+    auto& callingView = gui.setCallMode();
+    callingView.appendIncomingText("Incoming call from: " + to_string(callingPhoneNumber));
+
+    onAccept = [&, callingPhoneNumber] {
         handler->handleSendingCallAccept(callingPhoneNumber);
     };
 
-    onReject = [&]{
-        handler->handleSendingCallDropped(callingPhoneNumber);
+    onReject = [&, callingPhoneNumber] {
+        handler->handleSendingCallDrop(callingPhoneNumber);
     };
 }
 

@@ -5,8 +5,8 @@ namespace ue
 {
 
 BaseState::BaseState(Context& context, const std::string& name)
-    : context(context),
-      logger(context.logger, "[" + name + "]")
+        : context(context),
+          logger(context.logger, "[" + name + "]")
 {
     logger.logDebug("entry");
 }
@@ -56,14 +56,14 @@ void BaseState::handleSendingCallRequest(common::PhoneNumber receiver)
     logger.logError("Unexpected: handleSendingCallRequest");
 }
 
-void BaseState::handleReceivingCallAccept(common::PhoneNumber converserNumber)
+void BaseState::handleReceivingCallAccept(common::PhoneNumber callingPhoneNumber)
 {
     logger.logError("Unexpected: handleReceivingCallAccept");
 }
 
-void BaseState::handleReceivingCallDropped(common::PhoneNumber converserNumber)
+void BaseState::handleReceivingCallDrop(common::PhoneNumber callingPhoneNumber)
 {
-    logger.logError("Unexpected: handleReceivingCallDropped");
+    logger.logError("Unexpected: handleReceivingCallDrop");
 }
 
 void BaseState::handleUnknownReceiver()
@@ -76,9 +76,9 @@ void BaseState::handleSendingCallDrop(common::PhoneNumber receiver)
     logger.logError("Unexpected: handleSendingCallDrop");
 }
 
-void BaseState::handleReceivingCall(const common::PhoneNumber callingPhoneNumber)
+void BaseState::handleReceivingCallRequest(common::PhoneNumber callingPhoneNumber)
 {
-    logger.logError("Unexpected: handleReceivingCall from ", callingPhoneNumber);
+    logger.logError("Unexpected: handleReceivingCallRequest from ", callingPhoneNumber);
 }
 
 void BaseState::handleSendingCallAccept(common::PhoneNumber callingPhoneNumber)

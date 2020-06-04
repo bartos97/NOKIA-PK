@@ -9,8 +9,8 @@ Application::Application(common::PhoneNumber phoneNumber,
                          IBtsPort& bts,
                          IUserPort& user,
                          ITimerPort& timer)
-    : context{iLogger, bts, user, timer},
-      logger(iLogger, "[APP] ")
+        : context{iLogger, bts, user, timer},
+          logger(iLogger, "[APP] ")
 {
     logger.logInfo("Started");
     context.setState<NotConnectedState>();
@@ -56,9 +56,9 @@ void Application::handleSendingSms(common::PhoneNumber nr, std::string text)
     context.state->handleSendingSms(nr, text);
 }
 
-void Application::handleReceivingCall(common::PhoneNumber callingPhoneNumber)
+void Application::handleReceivingCallRequest(common::PhoneNumber callingPhoneNumber)
 {
-    context.state->handleReceivingCall(callingPhoneNumber);
+    context.state->handleReceivingCallRequest(callingPhoneNumber);
 }
 
 void Application::handleSendingCallAccept(common::PhoneNumber callingPhoneNumber)
@@ -71,14 +71,14 @@ void Application::handleSendingCallRequest(common::PhoneNumber receiver)
     context.state->handleSendingCallRequest(receiver);
 }
 
-void Application::handleReceivingCallAccept(common::PhoneNumber converserNumber)
+void Application::handleReceivingCallAccept(common::PhoneNumber callingPhoneNumber)
 {
-    context.state->handleReceivingCallAccept(converserNumber);
+    context.state->handleReceivingCallAccept(callingPhoneNumber);
 }
 
-void Application::handleReceivingCallDropped(common::PhoneNumber converserNumber)
+void Application::handleReceivingCallDrop(common::PhoneNumber callingPhoneNumber)
 {
-    context.state->handleReceivingCallDropped(converserNumber);
+    context.state->handleReceivingCallDrop(callingPhoneNumber);
 }
 
 void Application::handleUnknownReceiver()

@@ -20,7 +20,7 @@ public:
 
     void sendCallRequest(common::PhoneNumber receiver) override;
     void sendCallDrop(common::PhoneNumber receiver) override;
-    void sendingCallAccept(common::PhoneNumber callingPhoneNumber) override;
+    void sendCallAccept(common::PhoneNumber callingPhoneNumber) override;
 
 private:
     void handleMessage(BinaryMessage msg);

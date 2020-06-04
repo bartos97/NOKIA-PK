@@ -1,10 +1,10 @@
 #include "TalkingState.hpp"
 
-namespace  ue
+namespace ue
 {
 
-TalkingState::TalkingState(ue::Context &context)
-    : BaseState(context, "TalkingState")
+TalkingState::TalkingState(ue::Context& context)
+        : BaseState(context, "TalkingState")
 {
 
 }

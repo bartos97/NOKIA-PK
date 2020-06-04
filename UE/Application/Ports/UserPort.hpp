@@ -11,6 +11,9 @@ namespace ue
 
 enum class GUIView
 {
+    INVALID,
+    NOT_CONNECTED,
+    CONNECTING,
     MAIN_MENU,
     COMPOSE_SMS,
     RECEIVED_SMS_LIST,
@@ -18,11 +21,6 @@ enum class GUIView
     SMS,
     DIAL,
     CALLING
-};
-
-enum class MainMenuItem
-{
-    COMPOSE_SMS,
 };
 
 class UserPort : public IUserPort
@@ -36,11 +34,12 @@ public:
         bool isRead;
 
         SMS(const common::PhoneNumber senderNumber, const common::PhoneNumber receiverNumber)
-            : senderNumber(senderNumber), receiverNumber(receiverNumber)
+                : senderNumber(senderNumber), receiverNumber(receiverNumber)
         {}
 
-        SMS(const common::PhoneNumber senderNumber, const common::PhoneNumber receiverNumber, const std::string& text, bool isRead = false)
-            : senderNumber(senderNumber), receiverNumber(receiverNumber), text(text), isRead(isRead)
+        SMS(const common::PhoneNumber senderNumber, const common::PhoneNumber receiverNumber, const std::string& text,
+            bool isRead = false)
+                : senderNumber(senderNumber), receiverNumber(receiverNumber), text(text), isRead(isRead)
         {}
     };
 
@@ -56,9 +55,9 @@ public:
     void showConnecting() override;
     void showConnected() override;
     void showNewSms() override;
-    void addReceivedSms(const common::PhoneNumber senderNumber, const std::string& text) override;
-    void showCallingConnected(const common::PhoneNumber converserNumber) override;
-    void showCallingDropped(common::PhoneNumber converserNumber) override;
+    void addReceivedSms(common::PhoneNumber senderNumber, const std::string& text) override;
+    void showCallingConnected(common::PhoneNumber callingPhoneNumber) override;
+    void showCallingDropped(common::PhoneNumber callingPhoneNumber) override;
     void showUnknownReceiver() override;
     void showCallingTimeout() override;
     void showCallRequest(common::PhoneNumber callingPhoneNumber) override;
@@ -85,14 +84,14 @@ private:
     common::PhoneNumber phoneNumber;
     IUserEventsHandler* handler = nullptr;
 
-    GUIView currentView;
-    GUIView previousView;
+    GUIView currentView = GUIView::INVALID;
+    GUIView previousView = GUIView::INVALID;
     std::function<void()> onAccept;
     std::function<void()> onReject;
 
     std::vector<SMS> receivedSmsDb;
     std::vector<SMS> sentSmsDb;
-    common::PhoneNumber currentReceiver;
+    common::PhoneNumber currentReceiver{common::PhoneNumber::INVALID_VALUE};
 };
 
 }

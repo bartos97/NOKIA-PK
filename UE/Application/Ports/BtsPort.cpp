@@ -6,9 +6,9 @@ namespace ue
 {
 
 BtsPort::BtsPort(common::ILogger& logger, common::ITransport& transport, common::PhoneNumber phoneNumber)
-    : logger(logger, "[BTS-PORT]"),
-      transport(transport),
-      phoneNumber(phoneNumber)
+        : logger(logger, "[BTS-PORT]"),
+          transport(transport),
+          phoneNumber(phoneNumber)
 {
 
 }
@@ -29,60 +29,100 @@ void BtsPort::stop()
 
 void BtsPort::handleMessage(BinaryMessage msg)
 {
-    try {
+    try
+    {
         common::IncomingMessage reader{msg};
         auto msgId = reader.readMessageId();
         auto from = reader.readPhoneNumber();
         auto to = reader.readPhoneNumber();
 
-        switch (msgId) {
-            case common::MessageId::Sib: {
+        switch (msgId)
+        {
+            case common::MessageId::Sib:
+            {
                 auto btsId = reader.readBtsId();
                 handler->handleSib(btsId);
                 break;
             }
-            case common::MessageId::AttachResponse: {
+            case common::MessageId::AttachResponse:
+            {
                 bool accept = reader.readNumber<std::uint8_t>() != 0u;
-                if (accept) {
+                if (accept)
+                {
                     handler->handleAttachAccept();
-                } else
+                }
+                else
                     handler->handleAttachReject();
                 break;
             }
-            case common::MessageId::Sms: {
+            case common::MessageId::Sms:
+            {
                 bool number_exist = to == phoneNumber;
-                if (number_exist) {
+                if (number_exist)
+                {
                     std::string text = reader.readRemainingText();
                     logger.logDebug("received sms text: ", text);
                     handler->handleReceivingSms(from, text);
                 }
                 break;
             }
-            case common::MessageId::CallRequest: {
+            case common::MessageId::CallRequest:
+            {
                 bool number_exist = to == phoneNumber;
-                if(number_exist)
+                if (number_exist)
                 {
-                    handler->handleReceivingCall(from);
+                    handler->handleReceivingCallRequest(from);
                 }
                 break;
             }
-            case common::MessageId::CallAccepted: {
+            case common::MessageId::CallAccepted:
+            {
                 handler->handleReceivingCallAccept(from);
                 break;
             }
-            case common::MessageId::CallDropped: {
-                handler->handleReceivingCallDropped(from);
+            case common::MessageId::CallDropped:
+            {
+                handler->handleReceivingCallDrop(from);
                 break;
             }
-            case common::MessageId::UnknownRecipient: {
-                handler->handleUnknownReceiver();
+            case common::MessageId::UnknownRecipient:
+            {
+                auto unknownMsgId = reader.readMessageId();
+                auto unknownFrom = reader.readPhoneNumber();
+                switch (unknownMsgId)
+                {
+                    case common::MessageId::CallRequest:
+                    {
+                        handler->handleUnknownReceiver();
+                        break;
+                    }
+                    case common::MessageId::CallDropped:
+                    {
+                        logger.logDebug("Received MessageId::UnknownRecipient after MessageId::CallDropped");
+                        break;
+                    }
+                    case common::MessageId::CallAccepted:
+                    {
+                        logger.logDebug("Received MessageId::UnknownRecipient after MessageId::CallAccepted");
+                        break;
+                    }
+                    case common::MessageId::CallTalk:
+                    {
+                        logger.logDebug("Received MessageId::UnknownRecipient after MessageId::CallTalk");
+                        break;
+                    }
+                    default:
+                        logger.logError("Received MessageId::UnknownRecipient after unknown MessageId = ", unknownMsgId,
+                                        ", from: ", unknownFrom);
+                }
+
                 break;
             }
-            default:
-                logger.logError("unknown message: ", msgId, ", from: ", from);
+            default:logger.logError("unknown message: ", msgId, ", from: ", from);
         }
     }
-    catch (std::exception const& ex) {
+    catch (std::exception const& ex)
+    {
         logger.logError("handleMessage error: ", ex.what());
     }
 }
@@ -124,7 +164,7 @@ void BtsPort::sendCallDrop(common::PhoneNumber receiver)
     logger.logDebug("sent call drop to: ", receiver);
 }
 
-void BtsPort::sendingCallAccept(common::PhoneNumber callingPhoneNumber)
+void BtsPort::sendCallAccept(common::PhoneNumber callingPhoneNumber)
 {
     common::OutgoingMessage msg{common::MessageId::CallAccepted, phoneNumber, callingPhoneNumber};
     transport.sendMessage(msg.getMessage());
