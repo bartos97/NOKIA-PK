@@ -155,6 +155,79 @@ TEST_F(BtsPortTestSuite, shallSendCallRequest)
     ASSERT_NO_THROW(reader.checkEndOfMessage());
 }
 
+TEST_F(BtsPortTestSuite, shallSendCallDrop)
+{
+    common::BinaryMessage msg;
+    EXPECT_CALL(transportMock, sendMessage(_)).WillOnce([&msg](auto param) {
+        msg = std::move(param);
+        return true;
+    });
+    objectUnderTest.sendCallDrop(common::PhoneNumber{});
+    common::IncomingMessage reader(msg);
+    ASSERT_NO_THROW(EXPECT_EQ(common::MessageId::CallDropped, reader.readMessageId()));
+    ASSERT_NO_THROW(EXPECT_EQ(PHONE_NUMBER, reader.readPhoneNumber()));
+    ASSERT_NO_THROW(EXPECT_EQ(common::PhoneNumber{}, reader.readPhoneNumber()));
+    ASSERT_NO_THROW(reader.checkEndOfMessage());
+}
 
+TEST_F(BtsPortTestSuite, shallSendCallAccept)
+{
+    common::BinaryMessage msg;
+    EXPECT_CALL(transportMock, sendMessage(_)).WillOnce([&msg](auto param) {
+        msg = std::move(param);
+        return true;
+    });
+    objectUnderTest.sendCallAccept(common::PhoneNumber{});
+    common::IncomingMessage reader(msg);
+    ASSERT_NO_THROW(EXPECT_EQ(common::MessageId::CallAccepted, reader.readMessageId()));
+    ASSERT_NO_THROW(EXPECT_EQ(PHONE_NUMBER, reader.readPhoneNumber()));
+    ASSERT_NO_THROW(EXPECT_EQ(common::PhoneNumber{}, reader.readPhoneNumber()));
+    ASSERT_NO_THROW(reader.checkEndOfMessage());
+}
+
+TEST_F(BtsPortTestSuite, shallReceiveCorrectCallRequest)
+{
+    common::PhoneNumber receivingPhoneNumber{113};
+    common::OutgoingMessage msg{common::MessageId::CallRequest,
+                                receivingPhoneNumber,
+                                PHONE_NUMBER};
+
+    EXPECT_CALL(handlerMock, handleReceivingCallRequest(receivingPhoneNumber));
+    messageCallback(msg.getMessage());
+}
+
+TEST_F(BtsPortTestSuite, shallReceiveSameFromAndToNumber)
+{
+    common::PhoneNumber receivingPhoneNumber{113};
+    common::PhoneNumber sendingPhoneNumber{113};
+    common::OutgoingMessage msg{common::MessageId::CallRequest,
+                                receivingPhoneNumber,
+                                sendingPhoneNumber};
+
+    EXPECT_CALL(handlerMock, handleUnknownReceiver(receivingPhoneNumber));
+    messageCallback(msg.getMessage());
+}
+
+TEST_F(BtsPortTestSuite, shallReceiveCallDropped)
+{
+    common::PhoneNumber receivingPhoneNumber{113};
+    common::OutgoingMessage msg{common::MessageId::CallDropped,
+                                receivingPhoneNumber,
+                                PHONE_NUMBER};
+
+    EXPECT_CALL(handlerMock, handleReceivingCallDrop(receivingPhoneNumber));
+    messageCallback(msg.getMessage());
+}
+
+TEST_F(BtsPortTestSuite, shallReceiveCallAccept)
+{
+    common::PhoneNumber receivingPhoneNumber{113};
+    common::OutgoingMessage msg{common::MessageId::CallAccepted,
+                                receivingPhoneNumber,
+                                PHONE_NUMBER};
+
+    EXPECT_CALL(handlerMock, handleReceivingCallAccept(receivingPhoneNumber));
+    messageCallback(msg.getMessage());
+}
 
 }

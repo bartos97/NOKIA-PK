@@ -181,11 +181,4 @@ void BtsPort::sendCallAccept(common::PhoneNumber callingPhoneNumber)
     logger.logDebug("sent accept call to: ", callingPhoneNumber);
 }
 
-//void BtsPort::sendUnknownRecipient(common::PhoneNumber callingPhoneNumber)
-//{
-//    common::OutgoingMessage msg{common::MessageId::UnknownRecipient, phoneNumber, callingPhoneNumber};
-//    transport.sendMessage(msg.getMessage());
-//    logger.logDebug("sent unknown recipient to: ", callingPhoneNumber);
-//}
-
 }
