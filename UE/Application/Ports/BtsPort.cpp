@@ -118,6 +118,7 @@ void BtsPort::handleMessage(BinaryMessage msg)
                     {
 
                         logger.logDebug("Received MessageId::UnknownRecipient after MessageId::CallTalk");
+                        handler->handleUnknownReceiver(unknownTo);
                         break;
                     }
                     default:
